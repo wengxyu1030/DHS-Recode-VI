@@ -26,10 +26,10 @@ order *,sequential  //make sure variables are in order.
 
 	*c_hospdel: child born in hospital of births in last 2 years
 	gen c_hospdel= ( inlist(m15,21 ,41) ) if   !mi(m15)        
-	
+// please check this indicator in case it's country specific	
 	*c_facdel: child born in formal health facility of births in last 2 years
 	gen c_facdel = ( !inlist(m15,11,12,46,96) ) if   !mi(m15)   
-	
+
 	*c_earlybreast: child breastfed within 1 hours of birth of births in last 2 years
 
 	gen c_earlybreast = .
