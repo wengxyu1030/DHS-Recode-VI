@@ -43,7 +43,7 @@ order *,sequential  //make sure variables are in order.
 	    egen pro_dia = rowtotal(h12a-h12x),mi
 
         gen c_diarrhea_pro = 0 if c_diarrhea == 1
-        replace c_diarrhea_pro = 1 if pro >= 1 
+        replace c_diarrhea_pro = 1 if c_diarrhea_pro == 0 & pro >= 1 
         replace c_diarrhea_pro = . if pro == . 	
 	   
 	   /*for countries below there are categories that identified as formal 
@@ -135,7 +135,7 @@ order *,sequential  //make sure variables are in order.
         egen pro_ari = rowtotal(h32a-h32x),mi
 		
 		foreach var of varlist c_treatARI c_treatARI2 {
-        replace `var' = 1 if pro_ari >= 1 
+        replace `var' = 1 if `var' == 0 & pro_ari >= 1 
         replace `var'  = . if pro_ari == . 	
 		}
 	   
@@ -202,6 +202,8 @@ order *,sequential  //make sure variables are in order.
 			replace c_fevertreat = 1 if c_fevertreat == 0 & `var' == 1
 			replace c_fevertreat = . if `var' == 9 
 		}
+		// you may need to change $h32 according to the general codes above, as in general codes, we don't have $h32 anymore.
+		
 		
 *c_illness	Child with any illness symptoms in last two weeks
    		gen c_illness = (c_diarrhea == 1 | c_ari == 1 | c_fever == 1) 
