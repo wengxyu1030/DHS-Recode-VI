@@ -34,7 +34,7 @@ order *,sequential
 	*anc_skill: Categories as skilled: doctor, nurse, midwife, auxiliary nurse/midwife...
 	foreach var of varlist m2a-m2n {
 	local lab: variable label `var' 
-    replace `var' = . if ///
+    replace `var' = . if ///??
 	!regexm("`lab'","doctor|nurse|midwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant") ///
 	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife")  
 	replace `var' = . if !inlist(`var',0,1)
