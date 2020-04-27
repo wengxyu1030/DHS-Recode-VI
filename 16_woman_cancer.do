@@ -16,6 +16,5 @@ if _rc==0 {
     replace w_mammogram=. if s1017==. | s1017==9 | s1020==9
 }
 
-// I'm wodering where do you find these codes? 
-// Be careful these two variables may be country specific in recode six too.
+// There may be country specific in recode six too.
 // Also may need to add them in the quality control file, as they could be compared with HEFPI database.
