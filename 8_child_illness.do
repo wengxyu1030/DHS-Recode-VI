@@ -139,21 +139,19 @@ order *,sequential  //make sure variables are in order.
         replace `var'  = . if pro_ari == . 	
 		}
 	   
-	   if inlist(name,"Senegal2014","Senegal2012","Senegal2015"){  //For v000 == SN6, there's category don't show in label but back to survey. 
-			foreach x in a b c d e g h j l m n p q {
-            replace c_treatARI=1 if c_ari==1 & h32`x'==1
-            replace c_treatARI=. if c_ari==1 & h32`x'==9
-			
-			replace c_treatARI2=1 if c_ari2==1 & h32`x'==1
-            replace c_treatARI2=. if c_ari2==1 & h32`x'==9
-			}
-			}
+           if inlist(name,"Senegal2014","Senegal2012","Senegal2015"){  //For v000 == SN6, there's category don't show in label but back to survey. 	
+			global h32 "h32a h32b h32c h32d h32e h32g h32h h32j h32l h32m h32n h32p h32q"
+	   }
 	   if inlist(name,"Senegal2010") {
- 			foreach x in a b c d e j l m n {
-            replace c_diarrhea_pro=1 if c_diarrhea==1 & h12`x'==1
-            replace c_diarrhea_pro=. if c_diarrhea==1 & h12`x'==9			
-			}
-			}
+	                global h32 "h32a h32b h32c h32d h32e h32j h32l h32m h32n"
+	   }
+	   foreach var in $h32 {
+			replace c_treatARI = 1 if c_treatARI == 0 & `var' == 1 
+			replace c_treatARI = . if `var' == .
+			
+			replace c_treatARI2 = 1 if c_treatARI2 == 0 & `var' == 1 
+			replace c_treatARI2 = . if `var' == .
+		}
 			
 		/* if name == "Chad2014"{
 		    foreach x in a b c d e g h j l m n o p r {
@@ -197,12 +195,21 @@ order *,sequential  //make sure variables are in order.
 			*/
 		
 *c_fevertreat	Child with fever symptoms seen by formal provider
-        gen c_fevertreat = 0 if c_fever == 1
-		foreach var in $h32 {
-			replace c_fevertreat = 1 if c_fevertreat == 0 & `var' == 1
-			replace c_fevertreat = . if `var' == 9 
-		}
-		// you may need to change $h32 according to the general codes above, as in general codes, we don't have $h32 anymore.
+       if inlist(name,"Senegal2014","Senegal2012","Senegal2015","Senegal2010") {
+	       gen c_fevertreat = 0 if c_fever == 1
+			foreach var in $h32 {
+				replace c_fevertreat = 1 if c_fevertreat == 0 & `var' == 1
+				replace c_fevertreat = . if `var' == 9 
+			}
+	}	
+	if ~inlist(name,"Senegal2014","Senegal2012","Senegal2015","Senegal2010") {
+		gen c_fevertreat = 0 if c_fever == 1
+			replace c_fevertreat = 1 if c_fevertreat == 0 & pro_ari >= 1
+			replace c_fevertreat = . if pro_ari == .
+	}	
+		
+		
+		
 		
 		
 *c_illness	Child with any illness symptoms in last two weeks
