@@ -43,8 +43,8 @@ order *,sequential  //make sure variables are in order.
 	    egen pro_dia = rowtotal(h12a-h12x),mi
 
         gen c_diarrhea_pro = 0 if c_diarrhea == 1
-        replace c_diarrhea_pro = 1 if c_diarrhea_pro == 0 & pro >= 1 
-        replace c_diarrhea_pro = . if pro == . 	
+        replace c_diarrhea_pro = 1 if c_diarrhea_pro == 0 & pro_dia >= 1 
+        replace c_diarrhea_pro = . if pro_dia == . 	
 	   
 	   /*for countries below there are categories that identified as formal 
 	   provider but not shown in the label*/
