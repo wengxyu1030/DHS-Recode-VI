@@ -65,26 +65,28 @@ order *,sequential
 	replace c_anc_ski_q = . if mi(c_anc_ski) & c_anc_any == 1
 	
 	*c_anc_bp: Blood pressure measured during pregnancy of births in last 2 years
-	clonevar c_anc_bp = m42c            // please check this as well as bs and ur with my codes
+	replace c_anc_bp = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	replace c_anc_bp = 1 if m42c==1
 	
 	*c_anc_bp_q: Blood pressure measured during pregnancy among ANC users of births in last 2 years
 	gen c_anc_bp_q = (c_anc_bp==1) if c_anc_any == 1 
 	replace c_anc_bp_q = . if mi(c_anc_bp) & c_anc_any == 1 
 	
 	*c_anc_bs: Blood sample taken during pregnancy of births in last 2 years
-	clonevar c_anc_bs = m42e
+	replace c_anc_bs = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	replace c_anc_bs = 1 if m42e==1
 	
 	*c_anc_bs_q: Blood sample taken during pregnancy among ANC users of births in last 2 years
 	gen c_anc_bs_q = (c_anc_bs==1) if c_anc_any == 1 
 	replace c_anc_bs_q = . if c_anc_bs == . & c_anc_any == 1
 	
 	*c_anc_ur: Urine sample taken during pregnancy of births in last 2 years
-	clonevar c_anc_ur = m42d
+	replace c_anc_ur = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	replace c_anc_ur = 1 if m42d==1
 	
 	*c_anc_ur_q: Urine sample taken during pregnancy among ANC users of births in last 2 years
 	gen c_anc_ur_q = (c_anc_ur==1) if c_anc_any == 1 
 	replace c_anc_ur_q = . if mi(c_anc_ur) & c_anc_any == 1 
-	
 	
 	*c_anc_ir: iron supplements taken during pregnancy of births in last 2 years
 	egen anc_ir = rowtotal(m45 h42),mi
