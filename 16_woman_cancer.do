@@ -1,5 +1,6 @@
-*w_papsmear	Women received a pap smear  (1/0)
+*w_papsmear	Women received a pap smear  (1/0) 
 gen w_papsmear = .
+// for Peru, w_papsmear2 should be added. Othe country only do w_papsmear code from adepfile. 
 
 *w_mammogram	Women received a mammogram (1/0)
 gen w_mammogram = .
@@ -16,9 +17,20 @@ if _rc==0 {
     replace w_mammogram=. if s1017==. | s1017==9 | s1020==9
 }
 
-// There may be country specific in recode six too.
+// There may be country specific in recode.
+
+*Add reference period.
+gen w_mamogram_ref = . 
+gen w_papsmear_ref = .
+//if not in adeptfile, please generate value, otherwise keep it missing. 
+
+* Add Age Group.
+gen w_mamogram_age = . 
+gen w_papsmear_age = . 
+//if not in adeptfile, please generate value, otherwise keep it missing. 
+
+
 // Also may need to add them in the quality control file, as they could be compared with HEFPI database.
 
-// Add reference period.
-// Add Age Group.
+
 
