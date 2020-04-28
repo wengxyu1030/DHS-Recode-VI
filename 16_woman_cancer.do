@@ -22,6 +22,7 @@ if _rc==0 {
 gen w_mamogram_ref = . 
 gen w_papsmear_ref = .
 //if not in adeptfile, please generate value, otherwise keep it missing. 
+//if there are several recall periods, use the shorter one. 
 
 * Add Age Group.
 gen w_mamogram_age = . 
@@ -29,7 +30,7 @@ gen w_papsmear_age = .
 //if not in adeptfile, please generate value, otherwise keep it missing. 
 
 
-// Also may need to add them in the quality control file, as they could be compared with HEFPI database.
+
 
 
 
