@@ -1,6 +1,5 @@
 *w_papsmear	Women received a pap smear  (1/0) 
 gen w_papsmear = .
-// for Peru, w_papsmear2 should be added. Othe country only do w_papsmear code from adepfile. 
 
 *w_mammogram	Women received a mammogram (1/0)
 gen w_mammogram = .
