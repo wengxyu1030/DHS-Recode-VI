@@ -46,7 +46,7 @@ if _rc==0 {
 gen w_mammogram_ref = "" 
 gen w_papsmear_ref = ""
 //if not in adeptfile, please generate value, otherwise keep it missing. 
-//if there are several recall periods, use the shorter one. 
+//if the preferred recall is not available (3 years for pap, 2 years for mam) use shortest other available recall 
 
 * Add Age Group.
 gen w_mammogram_age = ""
