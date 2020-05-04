@@ -13,27 +13,48 @@ global OUT "${root}/STATA/DATA/SC/FINAL"
 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
-global DO "C:/Users/wb500886/OneDrive - WBG/GIt/DHS-Recode-VII-TEST/DHS-Recode-VI/support/STATA/DO/SC/DHS/Recode VI"
+global DO "${root}/STATA/DO/SC/DHS/Recode VI"
 
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
 
-	
 //please define your global here. 
 
 foreach name in $DHScountries_Recode_VI{	
-	gen m15_skill = 0 
-
+use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear	
 	decode m15, gen(m15_lab)
-	replace m15_skill = 1 if ///
-	regexm(m15_lab, "other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|hilot|traditional|cs private medical|cs public sector|no treatment") ///
-	& !regexm(m15_lab,"ngo|hospital|medical center|traditional practioner$")
-	replace m15_skill = . if mi(m15) | m15 == 99
+	replace m15_lab = lower(m15_lab)
+	
+	gen c_hospdel = 0 if !mi(m15)
+	replace c_hospdel = 1 if ///
+    regexm(m15_lab,"hospital") & ///
+	!regexm(m15_lab,"center|sub-center|post|clinic")
+	replace c_hospdel = . if mi(m15) | m15 == 99	
+	
+	gen c_facdel = 0 if !mi(m15)
+	replace c_facdel = 1 if ///
+	!regexm(m15_lab,"home|other private|other$|pharmacy")
+	replace c_facdel = . if mi(m15) | m15 == 99
 	
 	gen name = "`name'"
-	keep m15* name
+	keep m15_lab m15 c_hospdel c_facdel name
+	duplicates drop m15 name,force
+
+	save "${INTER}/`name'_hspt.dta", replace  
 	}
 	
 	
-	
-	
+cd "${INTER}"	
+fs  *_hspt.dta
+local firstfile: word 1 of `r(files)'
+use `firstfile', clear
+foreach f in `r(files)' {
+ if "`f'" ~= "`firstfile'" append using `f'
+}
+
+export excel using "C:\Users\wb500886\OneDrive - WBG\10_Health\UHC\regulate_var\varlist_hspt_full.xlsx", sheet("full") firstrow(var) replace
+
+keep m15_lab c_hospdel c_facdel
+duplicates drop
+
+export excel using "C:\Users\wb500886\OneDrive - WBG\10_Health\UHC\regulate_var\varlist_hspt.xlsx", sheet("label_only") firstrow(var) replace
