@@ -92,6 +92,7 @@ gen hm_age_yrs = v012
     do "${DO}/4_sexual_health"
     do "${DO}/5_woman_anthropometrics"
     do "${DO}/16_woman_cancer"
+	do "${DO}/17_woman_cancer_age_ref.do"
 *housekeeping for ind data
 
     *hm_dob	date of birth (cmc)

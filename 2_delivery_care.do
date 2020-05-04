@@ -24,11 +24,22 @@ order *,sequential  //make sure variables are in order.
 	   the first group but don't contain any words in the second group */
     egen sba_skill = rowtotal(m3a-m3n),mi
 
-	*c_hospdel: child born in hospital of births in last 2 years
-	gen c_hospdel= ( inlist(m15,21 ,41) ) if   !mi(m15)        
-// please check this indicator in case it's country specific	
+	*c_hospdel: child born in hospital of births in last 2 years  
+	decode m15, gen(m15_lab)
+	replace m15_lab = lower(m15_lab)
+	
+	gen c_hospdel = 0 if !mi(m15)
+	replace c_hospdel = 1 if ///
+    regexm(m15_lab,"hospital") &
+	!regexm(m15_lab,"center|sub-center|post|clinic")
+	replace c_hospdel = . if mi(m15) | m15 == 99	
+    // please check this indicator in case it's country specific	
+	
 	*c_facdel: child born in formal health facility of births in last 2 years
-	gen c_facdel = ( !inlist(m15,11,12,46,96) ) if   !mi(m15)   
+	gen c_facdel = 0 if !mi(m15)
+	replace c_facdel = 1 if ///
+	!regexm(m15_lab,"home|other private|other$|pharmacy")
+	replace c_facdel = . if mi(m15) | m15 == 99
 
 	*c_earlybreast: child breastfed within 1 hours of birth of births in last 2 years
 
