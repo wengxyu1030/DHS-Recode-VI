@@ -61,46 +61,6 @@ order *,sequential  //make sure variables are in order.
 	replace c_sba = 1 if sba_skill>=1 
 	replace c_sba = 0 if sba_skill==0 
 	  
-/* 	   * Chad2014 has different definition of sba (see report)
-	if country_year == "Chad2014" {
-	drop c_sba 
-	gen c_sba = . 
-	replace c_sba = 1 if (m3a ==1 | m3b ==1 | m3c ==1 | m3e ==1 | m3f ==1)
-	replace c_sba = 0 if c_sba==. & ((DHS_phase>=6 & DHS_phase!=.) 
-	replace c_sba = . if m3a ==. & m3b ==. & m3c ==. & m3e ==. & m3f ==. 
-	}
-					
-	    * Tanzania2015 has different definition of sba (see report)
-	if country_year == "Tanzania2015" {
-	drop c_sba 
-	gen c_sba = . 
-	replace c_sba = 1 if (m3a ==1 | m3b ==1 | m3c ==1 | m3g ==1 | m3h ==1 | m3i ==1) 
-	replace c_sba = 0 if c_sba==.  
-	replace c_sba = . if m3a ==. & m3b ==. & m3c ==. & m3g ==. & m3h ==. & m3i ==. 
-	}	
- 
-	    * Senegal2014 has different definition of sba (see report)
-	if inlist(country_year,"Senegal2014","Senegal2015","Senegal2010","Senegal2012" ) {	
-    drop c_sba 
-	gen c_sba = . 
-	replace c_sba = 1 if (m3a==1 | m3b==1 | m3c==1) 
-	replace c_sba = 0 if c_sba==. 
-	replace c_sba = . if m3a==. & m3b==. & m3c==.  
-	}
-	    * Cambodia2014 has different definition of sba (see report)
-	if inlist(country_year, "Cambodia2014" ) {	
-	replace c_sba = 1 if (m3a==1 | m3b==1 | m3c==1 | m3d==1 | m3e==1 | m3f==1) 
-	replace c_sba = 0 if c_sba==. 
-	replace c_sba = . if m3a==. & m3b==. & m3c==. & m3d==. & m3e==. & m3f==.
-	} 
-	
-	    * Burkina Faso 2010 has different definition of sba (see report)
-	if country_year == "BurkinaFaso2010" {	
-	replace c_sba = 1 if (m3a==1 | m3b==1 | m3c==1 | m3d==1 | m3e==1 ) 
-	replace c_sba = 0 if c_sba==. 
-	replace c_sba = . if m3a==. & m3b==. & m3c==. & m3d==. & m3e==.
-	}  */
-
 	*c_sba_q: child placed on mother's bare skin and breastfeeding initiated immediately after birth among children with sba of births in last 2 years
 	gen c_sba_q = (c_skin2skin == 1 & c_earlybreast == 1) if c_sba == 1
 	replace c_sba_q = . if c_skin2skin == . | c_earlybreast == .
@@ -109,7 +69,7 @@ order *,sequential  //make sure variables are in order.
 	clonevar c_caesarean = m17
 	
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
-	gen stay = (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,398))
+	gen stay = (inrange(m61,124,198)|inrange(m61,201,298)|inrange(m61,301,398))  
 	replace stay = . if mi(m61) | inlist(m61,199,299,998)
 	gen c_sba_eff1 = (c_facdel == 1 & c_sba == 1 & stay == 1 & c_earlybreast == 1) 
 	replace c_sba_eff1 = . if c_facdel == . | c_sba == . | stay == . | c_earlybreast == . 
