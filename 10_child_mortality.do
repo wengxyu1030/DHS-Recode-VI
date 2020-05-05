@@ -28,8 +28,4 @@
 	
 
 
-*******compare with statacompiler
-preserve
-keep if inrange(hm_age_mon,0,59) 
-restore
 

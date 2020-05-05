@@ -67,13 +67,13 @@ order *,sequential  //make sure variables are in order.
 *c_diarrhea_mof	Child with diarrhea received more fluids
         gen c_diarrhea_mof = (h38 == 5) if !inlist(h38,.,8) & c_diarrhea == 1
 
-*c_diarrhea_medfor Get formal medicine except (ors hmf home other_med). 
+*c_diarrhea_medfor Get formal medicine except (ors hmf home other_med, country specific). 
         egen medfor = rowtotal(h12z h15 h15a h15b h15c h15e h15g h15h h15i),mi
 		gen c_diarrhea_medfor = ( medfor > = 1 ) if c_diarrhea == 1
 		// formal medicine don't include "home remedy, herbal medicine and other"
         replace c_diarrhea_medfor = . if (h12z == 8 | h15 == 8 | h15a == 8 | h15b == 8 | h15c == 8 | h15e == 8  | h15g == 8 | h15h == 8 | h15i == 8 )                                       
 
-*c_diarrhea_med	Child with diarrhea received any medicine other than ORS or hmf
+*c_diarrhea_med	Child with diarrhea received any medicine other than ORS or hmf (country specific)
         egen med = rowtotal(h12z h15 h15a h15b h15c h15d h15e h15f h15g h15h h15i),mi
         gen c_diarrhea_med = ( med > = 1 ) if c_diarrhea == 1
         replace c_diarrhea_med = . if (h12z == 8 | h15 == 8 | h15a == 8 | h15b == 8 | h15c == 8 | h15d == 8 | h15e == 8 | h15f == 8 | h15g == 8 | h15h == 8 | h15i == 8 )
@@ -155,46 +155,6 @@ order *,sequential  //make sure variables are in order.
 			replace c_treatARI2 = . if `var' == .
 		}
 			
-		/* if name == "Chad2014"{
-		    foreach x in a b c d e g h j l m n o p r {
-		    replace c_treatARI=1 if c_ari==1 & h32`x'==1
-            replace c_treatARI=. if c_ari==1 & h32`x'==9
-			
-			replace c_treatARI2=1 if c_ari2==1 & h32`x'==1
-            replace c_treatARI2=. if c_ari2==1 & h32`x'==9
-		    }
-		    }
-			
-		if name == "Cambodia2014"{;
-			foreach x in a b c d e f g h j l m n o p q {
-			replace c_treatARI=1 if c_ari==1 & h32`x'==1
-            replace c_treatARI=. if c_ari==1 & h32`x'==9
-			
-			replace c_treatARI2=1 if c_ari2==1 & h32`x'==1
-            replace c_treatARI2=. if c_ari2==1 & h32`x'==9
-			}
-			}
-		
-        if inlist(name,"Armenia2010"){
-            foreach x in a b d e f g i j l m n o p r  {
-			replace c_treatARI=1 if c_ari==1 & h32`x'==1
-            replace c_treatARI=. if c_ari==1 & h32`x'==9
-			
-			replace c_treatARI2=1 if c_ari2==1 & h32`x'==1
-            replace c_treatARI2=. if c_ari2==1 & h32`x'==9
-			}		
-			}
-		
-		if inlist(name,"Bangladesh2011"){
-		    foreach x in a b c d e f g h i j l s t u v {
-			replace c_treatARI=1 if h32`x'==1&c_ari==1       /* medical treatment sought for ARI*/
-			replace c_treatARI=. if h32a==9  &c_ari==1 
-			
-			replace c_treatARI2=1 if c_ari2==1 & h32`x'==1
-            replace c_treatARI2=. if c_ari2==1 & h32`x'==9
-		    }
-			} 
-			*/
 		
 *c_fevertreat	Child with fever symptoms seen by formal provider
        if inlist(name,"Senegal2014","Senegal2012","Senegal2015","Senegal2010") {
@@ -209,9 +169,6 @@ order *,sequential  //make sure variables are in order.
 			replace c_fevertreat = 1 if c_fevertreat == 0 & pro_ari >= 1
 			replace c_fevertreat = . if pro_ari == .
 	}	
-		
-		
-		
 		
 		
 *c_illness	Child with any illness symptoms in last two weeks
