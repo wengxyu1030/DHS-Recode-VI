@@ -27,13 +27,13 @@ use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
 	
 	gen c_hospdel = 0 if !mi(m15)
 	replace c_hospdel = 1 if ///
-    regexm(m15_lab,"hospital") & ///
-	!regexm(m15_lab,"center|sub-center|post|clinic")
+    regexm(m15_lab,"medical college|surgical") | ///
+	regexm(m15_lab,"hospital") & !regexm(m15_lab,"center|sub-center|post|clinic")
 	replace c_hospdel = . if mi(m15) | m15 == 99 | mi(m15_lab)	
 	
 	gen c_facdel = 0 if !mi(m15)
-	replace c_facdel = 1 if ///
-	!regexm(m15_lab,"home|other private|other$|pharmacy")
+	replace c_facdel = 1 if regexm(m15_lab,"hospital") | ///
+	!regexm(m15_lab,"home|other private|other$|pharmacy|non medical|private nurse|religious|abroad")
 	replace c_facdel = . if mi(m15) | m15 == 99 | mi(m15_lab)
 	
 	gen name = "`name'"
