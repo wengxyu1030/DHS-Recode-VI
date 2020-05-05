@@ -29,13 +29,7 @@
 	gen c_pnc_eff = .
 	replace c_pnc_eff = 0 if m51 != . | m52_skill != . | m71 != . | m72_skill != .   
     replace c_pnc_eff = 1 if ((inrange(m51,100,124) | m51 == 201 ) & m52_skill == 1) & ((inrange(m71,100,124) | m71 == 201) & m72_skill == 1 )
-    replace c_pnc_eff = . if inlist(m51,199,299,399,998) | m52_skill == . | inlist(m71,199,299,399,998) | m72_skill == . 
-                     
-    /*     
-	replace c_pnc_eff = 0 if m62 != . | m66 != . | m70 != . | m74 != .   //m64 doesn't exist in Recodee VI 
-    replace c_pnc_eff = 1 if (((inrange(m63,100,124) | m63 == 201 ) & inrange(m64,11,13)) | ((inrange(m67,100,124) | m67 == 201) & inrange(m68,11,13))) & (((inrange(m71,100,124) | m71 == 201) & inrange(m72,11,13)) | ((inrange(m75,100,124) | m75 == 201) & inrange(m76,11,13)))
-    replace c_pnc_eff = . if inlist(m63,199,299,399,998) | inlist(m67,199,299,399,998) | inlist(m71,199,299,399,998) | inlist(m75,199,299,399,998) | m62 == 8 | m66 == 8 | m70 == 8 | m74 == 8
-    */
+    replace c_pnc_eff = . if inlist(m51,199,299,399,998) | m52_skill == . | inlist(m71,199,299,399,998) | m72_skill == .              
 	
 	*c_pnc_eff_q: mother AND child in first 24h by skilled health worker among those with any PNC
 	gen c_pnc_eff_q = c_pnc_eff

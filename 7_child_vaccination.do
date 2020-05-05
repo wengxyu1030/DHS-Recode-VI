@@ -58,8 +58,7 @@ if inlist(name,"Benin2011") {
 *c_bcg	child			Child received BCG vaccination
 		gen c_bcg  = . 
 		replace c_bcg  = 1 if (h2 ==1 | h2 ==2 | h2 ==3)  
-		replace c_bcg  = 0 if h2 ==0  
-		
+		replace c_bcg  = 0 if h2 ==0  		
 
 		gen cpolio0  = .  
 		replace cpolio0  = 1 if (h0 ==1 | h0 ==2 | h0 ==3)  

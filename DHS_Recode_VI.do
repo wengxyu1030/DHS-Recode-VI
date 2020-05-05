@@ -33,7 +33,6 @@ global INTER "${root}/STATA/DATA/SC/INTER"
 global DO "${root}/STATA/DO/SC/DHS/Recode VI"
 
 * Define the country names (in globals) in by Recode
-
 do "${DO}/0_GLOBAL.do"
 
 
@@ -93,6 +92,7 @@ gen hm_age_yrs = v012
     do "${DO}/5_woman_anthropometrics"
     do "${DO}/16_woman_cancer"
 	do "${DO}/17_woman_cancer_age_ref.do"
+	
 *housekeeping for ind data
 
     *hm_dob	date of birth (cmc)
@@ -102,21 +102,6 @@ gen hm_age_yrs = v012
 keep v001 v002 v003 w_* hm_*
 rename (v001 v002 v003) (hv001 hv002 hvidx)
 save `ind' 
-
-******************************
-*****domains using men data***
-******************************
-/* use "${SOURCE}/DHS-`name'/DHS-`name'men.dta", clear
-gen name = "`name'"
-
-    *hm_dob	date of birth (cmc)
-    gen hm_dob = mv011  
-
-keep mv001 mv002 mv003 hm_*
-rename (mv001 mv002 mv003) (hv001 hv002 hvidx)
-save `men' */
-
-//use hc instead of men data
 
 ************************************
 *****domains using hm level data****
@@ -132,7 +117,7 @@ keep hv001 hv002 hvidx hc70 hc71 ///
 c_* ant_* a_* hm_* ln
 save `hm'
 
-capture confirm file "${SOURCE}/DHS/DHS-`name'/DHS-`name'hiv.dta"
+capture confirm file "${SOURCE}/DHS/DHS-`name'/DHS-`name'hiv.dta"     //if there is hiv data generate hiv relevant indicators.
  if _rc==0 {
     use "${SOURCE}/DHS/DHS-`name'/DHS-`name'hiv.dta", clear
     do "${DO}/12_hiv"
@@ -183,8 +168,6 @@ use `hm',clear
 	drop _merge
     merge m:m hv001 hv002 hvidx using `ind',nogen update
 	merge m:m hv001 hv002       using `hh',nogen update
-
-    tab hh_urban,mi  //check whether all hh member + dead child + child lives outside hh assinged hh info
 
 ***survey level data
     gen survey = "DHS-`name'"

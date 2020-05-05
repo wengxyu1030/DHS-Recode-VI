@@ -72,7 +72,7 @@
 	replace w_unmet_fp = . if w_married!=1
 	
     *w_metany_fp_q 15-49y married or in union using modern contraceptives among those with need for family planning who use any contraceptives (1/0)
-     gen w_metany_fp_q = (w_CPR == 1) if w_need_fp == 1 
+    gen w_metany_fp_q = (w_CPR == 1) if w_need_fp == 1 
 	 
 
 

@@ -19,7 +19,7 @@
 *hm_headrel	Relationship with HH head
 	clonevar hm_headrel = hv101
 	
-*hm_stay				Stayed in the HH the night before the survey (1/0)
+*hm_stay Stayed in the HH the night before the survey (1/0)
     gen hm_stay = .  //vary by survey, afg is missing.
 	
 *hm_dob	date of birth (cmc)

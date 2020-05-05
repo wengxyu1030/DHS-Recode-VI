@@ -1,4 +1,8 @@
 
+***********************
+*** Woman Cancer*******
+***********************
+	
 *w_papsmear	Women received a pap smear  (1/0) 
 *w_mammogram	Women received a mammogram (1/0)
 
@@ -14,8 +18,7 @@ if _rc==0 {
 
 capture confirm variable s1011a s1011 s1012c s1012b
 if _rc == 0 {
-    ren v012 wage
-	
+    ren v012 wage	
 	replace s1011a=. if s1011a==98|s1011a==99
     replace w_papsmear=1 if (s1011==1&s1011a<=23)
     replace w_papsmear=0 if s1011==0
@@ -39,19 +42,21 @@ if _rc==0 {
     tab wage if w_mammogram!=. /*DHS sample is women aged 15-49*/
     replace w_mammogram=. if wage<50|wage>69
 }
-// There may be country specific in recode.
+// They may be country specific in surveys.
 
 
 *Add reference period.
-gen w_mammogram_ref = "" 
-gen w_papsmear_ref = ""
 //if not in adeptfile, please generate value, otherwise keep it missing. 
 //if the preferred recall is not available (3 years for pap, 2 years for mam) use shortest other available recall 
 
+gen w_mammogram_ref = ""  //use string in the list: "1yr","2yr","5yr","ever"; or missing as ""
+gen w_papsmear_ref = ""   //use string in the list: "1yr","2yr","3yr","5yr","ever"; or missing as ""
+
 * Add Age Group.
-gen w_mammogram_age = ""
-gen w_papsmear_age = ""
 //if not in adeptfile, please generate value, otherwise keep it missing. 
+
+gen w_mammogram_age = "" //use string in the list: "20-49","20-59"; or missing as ""
+gen w_papsmear_age = ""  //use string in the list: "40-49","20-59"; or missing as ""
 
 
 

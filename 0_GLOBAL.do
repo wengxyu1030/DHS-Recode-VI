@@ -60,8 +60,7 @@ global DHScountries_Recode_VI
  Chad2014             
  Comoros2012          
  Congorep2011         
- Congodr2013          
- CotedIvoire2011      
+ Congodr2013              
  DominicanRepublic2013
  Egypt2014            
  Ethiopia2011         
@@ -85,8 +84,7 @@ global DHScountries_Recode_VI
  Nepal2011            
  Niger2012            
  Nigeria2013          
- Pakistan2012         
- Philippines2013      
+ Pakistan2012              
  Rwanda2010           
  Rwanda2014           
  Senegal2010          
@@ -96,14 +94,18 @@ global DHScountries_Recode_VI
  Senegal2016          
  SierraLeone2013      
  Tajikistan2012       
- Togo2013             
- Turkey2013           
+ Togo2013                     
  Uganda2011           
  Yemen2013            
  Zambia2013           
  Zimbabwe2010  
 ";
 #delimit cr
+
+//no data:
+//CotedIvoire2011 
+//Philippines2013 
+//Turkey2013   
 
 **********************************
 *** DHS countries: Recode V ****

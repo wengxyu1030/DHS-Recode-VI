@@ -42,9 +42,7 @@ order *,sequential
 	 }
 	/* do consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
-    egen anc_skill = rowtotal(m2a-m2n),mi
-	// remove this variable here, because in this way it won't affect m2n variable in c_anc_ear
-	
+    egen anc_skill = rowtotal(m2a-m2n),mi	
 	
 	*c_anc_eff: Effective ANC (4+ antenatal care visits, any skilled provider, blood pressure, blood and urine samples) of births in last 2 years
 	egen anc_blood = rowtotal(m42c m42d m42e),mi
@@ -99,7 +97,7 @@ order *,sequential
 	
 	*c_anc_tet: pregnant women vaccinated against tetanus for last birth in last 2 years
 	    
-	    gen tet2lastp = 0                                                                                   //follow the definition by report. 
+	    gen tet2lastp = 0                                                                                   //follow the definition by report. might be country specific. 
         replace tet2lastp = 1 if m1 >1 & m1<8
 	
 	    * temporary vars needed to compute the indicator

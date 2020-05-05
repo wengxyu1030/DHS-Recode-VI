@@ -1,6 +1,6 @@
 *This file is to tag the reference period and year for w_papsmear and w_mamogram
 *utilizing the infomraiton from 15_Append_Aggregate.do
-
+*this file is only to tagging the previous adeptile generated woman-cancer related indicators. no modification is needed.  
 
 ************************************
 *identify the non-missing indicator*

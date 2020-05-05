@@ -42,7 +42,6 @@ order *,sequential  //make sure variables are in order.
 	replace c_facdel = . if mi(m15) | m15 == 99 | mi(m15_lab)
 
 	*c_earlybreast: child breastfed within 1 hours of birth of births in last 2 years
-
 	gen c_earlybreast = .
 	
 	replace c_earlybreast = 0 if m4 != .    //  based on Last born children who were ever breastfed
@@ -52,7 +51,7 @@ order *,sequential  //make sure variables are in order.
     *c_skin2skin: child placed on mother's bare skin immediately after birth of births in last 2 years
 	capture confirm variable m77
 	if _rc == 0{
-	gen c_skin2skin = (m77 == 1) if    !mi(m77)               //though missing but still a place holder.(the code might change depends on how missing represented in surveys)
+	gen c_skin2skin = (m77 == 1) if !mi(m77)               //though missing but still a place holder.(the code might change depends on how missing represented in surveys)
 	}
 	gen c_skin2skin = .
 	

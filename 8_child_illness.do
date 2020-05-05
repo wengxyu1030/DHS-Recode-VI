@@ -5,6 +5,8 @@
 	   	
 /* 
 Note: for phase 6: V000 = AM6 CG6 KE6, use the old code for formal provider for ARI and Diarrhea.
+Because the for the formal provider, the information can not be captured from the variable label, but only 
+from the report/survey, which presented in the adeptfile. 
  */
 
 
