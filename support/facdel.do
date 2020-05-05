@@ -29,12 +29,12 @@ use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
 	replace c_hospdel = 1 if ///
     regexm(m15_lab,"hospital") & ///
 	!regexm(m15_lab,"center|sub-center|post|clinic")
-	replace c_hospdel = . if mi(m15) | m15 == 99	
+	replace c_hospdel = . if mi(m15) | m15 == 99 | mi(m15_lab)	
 	
 	gen c_facdel = 0 if !mi(m15)
 	replace c_facdel = 1 if ///
 	!regexm(m15_lab,"home|other private|other$|pharmacy")
-	replace c_facdel = . if mi(m15) | m15 == 99
+	replace c_facdel = . if mi(m15) | m15 == 99 | mi(m15_lab)
 	
 	gen name = "`name'"
 	keep m15_lab m15 c_hospdel c_facdel name
@@ -43,7 +43,7 @@ use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
 	save "${INTER}/`name'_hspt.dta", replace  
 	}
 	
-	
+//ssc install fs (use this if fs is not installed	
 cd "${INTER}"	
 fs  *_hspt.dta
 local firstfile: word 1 of `r(files)'
