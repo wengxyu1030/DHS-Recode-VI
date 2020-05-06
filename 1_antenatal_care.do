@@ -32,17 +32,17 @@ order *,sequential
 	replace c_anc_ear_q = 0 if c_anc_ear == 0 & c_anc_any == 1
 	
 	*anc_skill: Categories as skilled: doctor, nurse, midwife, auxiliary nurse/midwife...
-	foreach var of varlist m2a-m2n {
+	foreach var of varlist m2a-m2m {
 	local lab: variable label `var' 
     replace `var' = . if ///
         !regexm("`lab'","trained") & 
-	(!regexm("`lab'","doctor|nurse|midwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant") ///
-	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife") )
+	(!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner") ///
+	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box") )
 	replace `var' = . if !inlist(`var',0,1)
 	 }
 	/* do consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
-    egen anc_skill = rowtotal(m2a-m2n),mi	
+    egen anc_skill = rowtotal(m2a-m2m),mi	
 	
 	*c_anc_eff: Effective ANC (4+ antenatal care visits, any skilled provider, blood pressure, blood and urine samples) of births in last 2 years
 	egen anc_blood = rowtotal(m42c m42d m42e),mi
