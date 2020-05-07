@@ -3,8 +3,8 @@
 *** Sexual health*******
 ************************ 	
 
-	gen w_married=(v501==1)
-	replace w_married=. if v501==.
+	gen w_married=(v502==1)
+	replace w_married=. if v502==.
 	
 	*w_condom_conc: 18-49y woman who had more than one sexual partner in the last 12 months and used a condom during last intercourse
      ** Concurrent partnerships 
