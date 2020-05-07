@@ -37,8 +37,8 @@ order *,sequential  //make sure variables are in order.
 	
 	*c_facdel: child born in formal health facility of births in last 2 years
 	gen c_facdel = 0 if !mi(m15)
-	replace c_facdel = 1 if regexm(m15_lab,"hospital") | ///
-	!regexm(m15_lab,"home|other private|other$|pharmacy|non medical|private nurse|religious|abroad")
+	replace c_facdel = 1 if regexm(m15_lab,"hospital|maternity|health center|dispensary") | ///
+	!regexm(m15_lab,"home|other private|other$|pharmacy|non medical|private nurse|religious|abroad|india|other public|tba")
 	replace c_facdel = . if mi(m15) | m15 == 99 | mi(m15_lab)
 
 	*c_earlybreast: child breastfed within 1 hours of birth of births in last 2 years
