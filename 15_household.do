@@ -31,7 +31,10 @@
     clonevar hh_wealth_quintile = hv270                          
 	
 *hh_wealthscore	Wealth index score   
-    clonevar hh_wealthscore = hv271
+    clonevar hhwealthscore_old = hv271
+    egen hhwealthscore_oldmin=min(hhwealthscore_old) 
+    gen hhwealthscore=hhwealthscore_old-hhwealthscore_oldmin
+    replace hhwealthscore=hhwealthscore/1000000
 	 
 
 *hv001 Sampling cluster number (original)
