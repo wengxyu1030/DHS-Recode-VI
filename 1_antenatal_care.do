@@ -35,8 +35,8 @@ order *,sequential
 	foreach var of varlist m2a-m2m {
 	local lab: variable label `var' 
     replace `var' = . if ///
-        !regexm("`lab'","trained") & ///
-	(!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner") ///
+  regexm("`lab'","trained") & ///
+  (!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner") ///
 	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box") )
 	replace `var' = . if !inlist(`var',0,1)
 	 }
@@ -64,7 +64,7 @@ order *,sequential
 	replace c_anc_ski_q = . if mi(c_anc_ski) & c_anc_any == 1
 	
 	*c_anc_bp: Blood pressure measured during pregnancy of births in last 2 years
-	replace c_anc_bp = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	gen c_anc_bp = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
 	replace c_anc_bp = 1 if m42c==1
 	
 	*c_anc_bp_q: Blood pressure measured during pregnancy among ANC users of births in last 2 years
@@ -72,7 +72,7 @@ order *,sequential
 	replace c_anc_bp_q = . if mi(c_anc_bp) & c_anc_any == 1 
 	
 	*c_anc_bs: Blood sample taken during pregnancy of births in last 2 years
-	replace c_anc_bs = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	gen c_anc_bs = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
 	replace c_anc_bs = 1 if m42e==1
 	
 	*c_anc_bs_q: Blood sample taken during pregnancy among ANC users of births in last 2 years
@@ -80,7 +80,7 @@ order *,sequential
 	replace c_anc_bs_q = . if c_anc_bs == . & c_anc_any == 1
 	
 	*c_anc_ur: Urine sample taken during pregnancy of births in last 2 years
-	replace c_anc_ur = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	gen c_anc_ur = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
 	replace c_anc_ur = 1 if m42d==1
 	
 	*c_anc_ur_q: Urine sample taken during pregnancy among ANC users of births in last 2 years
@@ -143,9 +143,9 @@ order *,sequential
 	*c_anc_eff3_q: Effective ANC (4+ antenatal care visits, any skilled provider, blood pressure, blood and urine samples, tetanus vaccination, start in first trimester) among ANC users of births in last 2 years
     gen c_anc_eff3_q = (c_anc == 1 & anc_skill>0 & anc_blood == 3 & rh_anc_neotet == 1 & inrange(m13,0,3)) if c_anc_any == 1
 	replace c_anc_eff3_q = . if (c_anc == . | anc_skill == . | anc_blood == . | rh_anc_neotet == . ) & c_anc_any == 1
-	
 
-	
+	*w_sampleweight.
+	gen w_sampleweight = v005/10e6
 
 
 
