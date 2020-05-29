@@ -83,7 +83,7 @@ order *,sequential
 	
 	*c_anc_ir_q: iron supplements taken during pregnancy among ANC users of births in last 2 years
 	gen c_anc_ir_q = (c_anc_ir == 1 ) if c_anc_any == 1 
-	replace c_anc_ir_q = . if c_anc_any == 1 & mi(anc_ir)
+	replace c_anc_ir_q = . if c_anc_any == 1 & mi(c_anc_ir)
 	
 	*c_anc_tet: pregnant women vaccinated against tetanus for last birth in last 2 years
 	    
