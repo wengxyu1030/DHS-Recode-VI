@@ -105,15 +105,15 @@ order *,sequential  //make sure variables are in order.
 		gen c_sevdiarrheatreat_q = (iv ==1 ) if c_sevdiarrheatreat == 1
 		
 *c_ari	Child with acute respiratory infection (ARI)	
-        gen c_ari = . 
-		replace c_ari= 1 if inlist(h31c,1,3) & ccough== 1 & h31b == 1	
-		replace c_ari= 0 if h31b==0 | ccough==0 	
+	gen c_ari = 0 if ccough != .
+		replace c_ari = 1 if h31b == 1 & ccough == 1 & inlist(h31c,1,3)
+		replace c_ari = . if inlist(h31b,8,9) | inlist(h31c,8,9)	
 		/* Children under 5 with cough and rapid breathing in the 
 		two weeks preceding the survey which originated from the chest. */
 		
-		gen c_ari2 = . 
-		replace c_ari2 = 1 if h31b == 1
-		replace c_ari2 = 0 if h31b == 0 | ccough == 0
+		gen c_ari2 = 0 if ccough != .
+		replace c_ari2 = 1 if h31b == 1 & ccough == 1
+		replace c_ari2 = . if inlist(h31b,8,9)
 		/* Children under 5 with cough and rapid breathing in the 
 		two weeks preceding the survey. */
 		
