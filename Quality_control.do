@@ -86,7 +86,7 @@ egen value_my`var' = wtmean(`var'), weight(w_sampleweight)
 }  
 
 *indicators calculate using household sample weight
-foreach var of c_underweight	c_stunted	c_ITN {
+foreach var of var c_underweight	c_stunted	c_ITN {
 egen value_my`var' = wtmean(`var'), weight(hh_sampleweight)
 }
 
