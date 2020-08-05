@@ -11,9 +11,9 @@
     decode `var', gen(`var'_lab)
 	replace `var'_lab = lower(`var'_lab )
 	replace  `var'_skill= 1 if ///
-	(regexm(`var'_lab,"doctor|nurse|midwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|trained|auxiliary birth attendant|physician assistant|professional|ferdsher|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant") ///
-	&!regexm(`var'_lab,"na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|other")) 
-	replace `var'_skill = . if mi(`var') | `var' == 99
+	(regexm(`var'_lab,"doctor|nurse|midwife|aide soignante|assistante accoucheuse|clinical officer|pediatriacian|mch aide|midwile|matrone/|trained|rescuer|auxiliary birth attendant|physician assistant|professional|ferdsher|skilled|community health care provider|birth attendant|hospital/health center worker|auxiliary|icds|feldsher|mch|vhw|health team|health personnel|gynecolog(ist|y)|internist|pediatrician|family welfare visitor|medical assistant|health assistant") ///
+	&!regexm(`var'_lab,"na^|-na|traditional birth attendant|untrained|unqualified|Matrone |empirical midwife|other|obstetrician|health assistant|health fieldworker|health worker") | (regexm(`var'_lab,"trained traditional") & !regexm(`var'_lab,"untrained")) | regexm(`var'_lab,"matron with |gynecology/ obstetrician") | (regexm(`var'_lab,"doctor|health personnel|health professional") & regexm(`var'_lab,"other")))
+	replace `var'_skill = . if mi(`var') | `var' == 99 | mi(`var'_lab) |`var' == 98
 	}
 	/* consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
@@ -22,7 +22,7 @@
 	*c_pnc_any : mother OR child receive PNC in first six weeks by skilled health worker
     gen c_pnc_any = 0 if !mi(m70) & !mi(m50) 
     replace c_pnc_any = 1 if (m71 <= 306 & m72_skill == 1 ) | (m51 <= 306 & m52_skill == 1)
-    replace c_pnc_any = . if ((inlist(m71,199,299,399,998)|m72_skill ==.) & m70 !=0) | ((inlist(m51,199,299,399,998) | m52_skill == .) & m50 !=0)
+    replace c_pnc_any = . if ((inlist(m71,199,299,399,998,999)|m72_skill ==.) & m70 !=0) | ((inlist(m51,199,299,399,998,999) | m52_skill == .) & m50 !=0)
 
 	
 	*c_pnc_eff: mother AND child in first 24h by skilled health worker	

@@ -43,7 +43,7 @@ capture confirm variable sh246s sh255s sh264s sh246d sh255d sh264d
 	
 *a_hi_bp140_or_on_med	18y+ with high blood pressure or on treatment for high blood pressure	
 	gen a_hi_bp140=.
-    replace a_hi_bp140=1 if a_bp_sys>=140 | a_bp_dial>=90 
+    replace a_hi_bp140=1 if (a_bp_sys>=140 & a_bp_sys!=.) | (a_bp_dial>=90 & a_bp_dial!=.)
     replace a_hi_bp140=0 if a_bp_sys<140 & a_bp_dial<90 
 	
 	gen a_hi_bp140_or_on_med = .
