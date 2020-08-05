@@ -71,6 +71,8 @@ order *,sequential  //make sure variables are in order.
 	gen stay = 0 if !inlist(m15,.,99) 
 	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,398))
 	replace stay = . if inlist(m61,199,299,998) // filter question, based on m15
+	egen m61mis = mean(m61)
+	replace stay = . if m61mis ==.
 	
 	gen c_sba_eff1 = (c_facdel == 1 & c_sba == 1 & stay == 1 & c_earlybreast == 1) 
 	replace c_sba_eff1 = . if c_facdel == . | c_sba == . | stay == . | c_earlybreast == . 
