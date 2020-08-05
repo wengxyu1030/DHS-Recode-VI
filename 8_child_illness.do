@@ -35,9 +35,9 @@ order *,sequential  //make sure variables are in order.
 	    foreach var of varlist h12a-h12x {
 	    local lab: variable label `var' 	   
         replace `var' = . if ///
-	    regexm("`lab'","( other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|rescuer|trad|unqualified|stand|cabinet|ayush|^na)") ///
-	    & !regexm("`lab'","(ngo|hospital|medical center|worker)")  
-	    replace `var' = . if !inlist(`var',0,1) 
+	    (regexm("`lab'","( other|shop|pharmacy|Shop|store|Store|Market|pharmacy|market|Pharmacy|at home|kiosk|Traditional Practitioner|dispenser/compounder|Street|other public -|other private -|other -|Fever/cough: CS public sector|Fever/cough: CS private medical|Traditional practitioner|Relatives|fever/cough: cs private medical|volunteer|merchant|market|kiosk|relative|friend|Other|church|drug|addo|rescuer|trad|unqualified|stand|cabinet|ayush|^na|-na|na-|NA-|na -|NA -|fever/cough: cs public sector)") ///
+	    & !regexm("`lab'","(ngo|hospital|medical center|worker|women|cabinet|rescuer|national|cnss|NGO med.|health stand|moving)")) & !regexm("`lab'", "( lay)") 
+		replace `var' = . if !inlist(`var',0,1) 
 	    }
 	   /* do not consider formal if contain words in 
 	   the first group but don't contain any words in the second group */
@@ -128,8 +128,8 @@ order *,sequential  //make sure variables are in order.
 	    foreach var of varlist h32a-h32x {
 	    local lab: variable label `var' 
         replace `var' = . if ///
-	    regexm("`lab'","( other|shop|pharmacy|market|kiosk|relative|friend|church|drug|addo|rescuer|trad|unqualified|stand|cabinet|ayush|^na)") ///
-	    & !regexm("`lab'","(ngo|hospital|medical center|worker)")  
+	    (regexm("`lab'","( other|shop|pharmacy|Shop|store|Store|Market|pharmacy|market|Pharmacy|at home|kiosk|Traditional Practitioner|dispenser/compounder|Street|other public -|other private -|other -|Fever/cough: CS public sector|Fever/cough: CS private medical|Traditional practitioner|Relatives|fever/cough: cs private medical|volunteer|merchant|market|kiosk|relative|friend|Other|church|drug|addo|rescuer|trad|unqualified|stand|cabinet|ayush|^na|-na|na-|NA-|na -|NA -|fever/cough: cs public sector)") ///
+	    & !regexm("`lab'","(ngo|hospital|medical center|worker|women|cabinet|rescuer|national|cnss|NGO med.|health stand|moving)")) & !regexm("`lab'", "( lay)") 
 		replace `var' = . if !inlist(`var',0,1) 
 	    }
 	    /* do not consider formal if contain words in 

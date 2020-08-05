@@ -16,8 +16,8 @@ order *,sequential  //make sure variables are in order.
 	foreach var of varlist m3a-m3n {
 	local lab: variable label `var' 
     replace `var' = . if ///
-	!regexm("`lab'","trained") & (!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|general practitioner|matron") ///
-	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box"))
+    	!regexm("`lab'"," trained") & (!regexm("`lab'","doctor|nurse|Assistance|midwife|lady|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|birth attendant|hospital/health center worker|auxiliary|icds|feldsher|mch|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|medical assistant|matrone|general practitioner") ///
+	|regexm("`lab'","na^|-na|na -|Na- |NA -|husband/partner|matron |family welfare|Family welfare|student|homeopath|hakim|herself|traditionnel|Other|neighbor|provider|vhw|Friend|Relative|fieldworker|Health Worker|other|health worker|friend|relative|traditional birth attendant|hew|health assistant|untrained|unqualified|sub-assistant|empirical midwife|box")) & !(regexm("`lab'","doctor") & regexm("`lab'","other"))
 	replace `var' = . if !inlist(`var',0,1)
 	 }
 	/* do consider as skilled if contain words in 
@@ -37,10 +37,18 @@ order *,sequential  //make sure variables are in order.
 	
 	*c_facdel: child born in formal health facility of births in last 2 years
 	gen c_facdel = 0 if !mi(m15)
-	replace c_facdel = 1 if regexm(m15_lab,"hospital|maternity|health center|dispensary") | ///
-	!regexm(m15_lab,"home|other private|other$|pharmacy|non medical|private nurse|religious|abroad|india|other public|tba")
+	replace c_facdel = 1 if (regexm(m15_lab,"hospital|maternity|health center|clinic|dispensary") & !regexm(m15_lab,"home")) | ///
+	!regexm(m15_lab,"home|other private|other$|pharmacy|non medical|private nurse|religious|abroad|india|tba") | regexm(m15_lab,"health home|hospital/clin")
 	replace c_facdel = . if mi(m15) | m15 == 99 | mi(m15_lab)
 
+	if inlist(name,"Kenya2014"){
+		replace c_facdel = 1 if m15==32 
+	}
+	
+	if inlist(name,"Yemen2013"){
+		replace c_facdel = 1 if m15==31 | m15==41 
+	}
+	
 	*c_earlybreast: child breastfed within 1 hours of birth of births in last 2 years
 	gen c_earlybreast = .
 	
