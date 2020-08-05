@@ -57,7 +57,7 @@ order *,sequential  //make sure variables are in order.
 	
 	if inlist(name, "Armenia2010"){
 	drop c_skin2skin
-	gen c_skin2skin = (s433a  == 1) if  !mi(s435ai)
+	gen c_skin2skin = (s433a  == 1) if  !mi(s433a)
 	}
 	
 	if inlist(name, "Bangladesh2014"){
