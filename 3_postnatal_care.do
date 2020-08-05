@@ -22,7 +22,7 @@
 	*c_pnc_any : mother OR child receive PNC in first six weeks by skilled health worker
     gen c_pnc_any = 0 if !mi(m70) & !mi(m50) 
     replace c_pnc_any = 1 if (m71 <= 306 & m72_skill == 1 ) | (m51 <= 306 & m52_skill == 1)
-    replace c_pnc_any = . if ((inlist(m71,199,299,399,998)|m72_skill ==.) & m70 !=0) | ((inlist(m51,199,299,399,998) | m52_skill == .) & m50 !=0)
+    replace c_pnc_any = . if ((inlist(m71,199,299,399,998,999)|m72_skill ==.) & m70 !=0) | ((inlist(m51,199,299,399,998,999) | m52_skill == .) & m50 !=0)
 
 	
 	*c_pnc_eff: mother AND child in first 24h by skilled health worker	

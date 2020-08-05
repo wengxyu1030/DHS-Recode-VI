@@ -65,7 +65,7 @@ order *,sequential  //make sure variables are in order.
 			}		
 		
 *c_diarrhea_mof	Child with diarrhea received more fluids
-        gen c_diarrhea_mof = (h38 == 5) if !inlist(h38,.,8) & c_diarrhea == 1
+        gen c_diarrhea_mof = (h38 == 5) if !inlist(h38,.,8,9) & c_diarrhea == 1
 
 *c_diarrhea_medfor Get formal medicine except (ors hmf home other_med, country specific). 
         egen medfor = rowtotal(h12z h15 h15a h15b h15c h15e h15g h15h h15i),mi
@@ -90,7 +90,7 @@ order *,sequential  //make sure variables are in order.
         gen c_fever = (h22 == 1) if !inlist(h22,.,8,9)
 		
 *c_sevdiarrhea	Child with severe diarrhea
-		gen eat = (inlist(h39,0,1,2)) if !inlist(h39,.,8) & c_diarrhea == 1
+		gen eat = (inlist(h39,0,1,2)) if !inlist(h39,.,8,9) & c_diarrhea == 1
         gen c_sevdiarrhea = (c_diarrhea==1 & (c_fever == 1 | c_diarrhea_mof == 1 | eat == 1)) 
 		replace c_sevdiarrhea = . if c_diarrhea == . | c_fever == . | c_diarrhea_mof ==.| eat==.
 		/* diarrhea in last 2 weeks AND any of the following three conditions: fever OR offered 
@@ -101,19 +101,19 @@ order *,sequential  //make sure variables are in order.
 		replace c_sevdiarrheatreat = . if c_sevdiarrhea == . | c_diarrhea_pro == .
 		
 *c_sevdiarrheatreat_q	IV (intravenous) treatment of severe diarrhea among children with any formal provider visits
-        gen iv = (h15c == 1) if !inlist(h15,.,8) & c_diarrhea == 1
+        gen iv = (h15c == 1) if !inlist(h15,.,8,9) & c_diarrhea == 1
 		gen c_sevdiarrheatreat_q = (iv ==1 ) if c_sevdiarrheatreat == 1
 		
 *c_ari	Child with acute respiratory infection (ARI)	
-        gen c_ari = . 
-		replace c_ari= 1 if inlist(h31c,1,3) & ccough== 1 & h31b == 1	
-		replace c_ari= 0 if h31b==0 | ccough==0 	
+	gen c_ari = 0 if ccough != .
+		replace c_ari = 1 if h31b == 1 & ccough == 1 & inlist(h31c,1,3)
+		replace c_ari = . if inlist(h31b,8,9) | inlist(h31c,8,9)	
 		/* Children under 5 with cough and rapid breathing in the 
 		two weeks preceding the survey which originated from the chest. */
 		
-		gen c_ari2 = . 
-		replace c_ari2 = 1 if h31b == 1
-		replace c_ari2 = 0 if h31b == 0 | ccough == 0
+		gen c_ari2 = 0 if ccough != .
+		replace c_ari2 = 1 if h31b == 1 & ccough == 1
+		replace c_ari2 = . if inlist(h31b,8,9)
 		/* Children under 5 with cough and rapid breathing in the 
 		two weeks preceding the survey. */
 		
@@ -179,11 +179,10 @@ order *,sequential  //make sure variables are in order.
 		replace c_illness2 =. if c_diarrhea == . | c_ari2 == . | c_fever == .
 		
 *c_illtreat	Child with any illness symptoms taken to formal provider
-        gen c_illtreat = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI == 1) if c_illness == 1
-		replace c_illtreat = . if c_fevertreat == . | c_diarrhea_pro == . | c_treatARI == .
-
-        gen c_illtreat2 = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI == 1) if c_illness2 == 1
-		replace c_illtreat2 = . if c_fevertreat == . | c_diarrhea_pro == . | c_treatARI == .
+        	gen c_illtreat = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI == 1) if c_illness == 1
+		replace c_illtreat = . if (c_fever == 1 & c_fevertreat == .) | (c_diarrhea == 1 & c_diarrhea_pro == .) | (c_ari == 1 & c_treatARI == .) 
+        	gen c_illtreat2 = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI == 1) if c_illness2 == 1
+		replace c_illtreat2 = . if (c_fever == 1 & c_fevertreat == .) | (c_diarrhea == 1 & c_diarrhea_pro == .) | (c_ari2 == 1 & c_treatARI2 == .) 
 
 
 
