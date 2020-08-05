@@ -11,7 +11,7 @@
     decode `var', gen(`var'_lab)
 	replace `var'_lab = lower(`var'_lab )
 	replace  `var'_skill= 1 if ///
-	(regexm(`var'_lab,"doctor|nurse|midwife|aide soignante|assistante accoucheuse|clinical officer|pediatriacian|mch aide|midwile|matrone/|trained|rescuer|auxiliary birth attendant|physician assistant|professional|ferdsher|skilled|community health care proVIder|birth attendant|hospital/health center worker|auxiliary|icds|feldsher|mch|vhw|health team|health personnel|gynecolog(ist|y)|internist|pediatrician|family welfare VIsitor|medical assistant|health assistant") ///
+	(regexm(`var'_lab,"doctor|nurse|midwife|aide soignante|assistante accoucheuse|clinical officer|pediatriacian|mch aide|midwile|matrone/|trained|rescuer|auxiliary birth attendant|physician assistant|professional|ferdsher|skilled|community health care provider|birth attendant|hospital/health center worker|auxiliary|icds|feldsher|mch|vhw|health team|health personnel|gynecolog(ist|y)|internist|pediatrician|family welfare visitor|medical assistant|health assistant") ///
 	&!regexm(`var'_lab,"na^|-na|traditional birth attendant|untrained|unqualified|Matrone |empirical midwife|other|obstetrician|health assistant|health fieldworker|health worker") | (regexm(`var'_lab,"trained traditional") & !regexm(`var'_lab,"untrained")) | regexm(`var'_lab,"matron with |gynecology/ obstetrician") | (regexm(`var'_lab,"doctor|health personnel|health professional") & regexm(`var'_lab,"other")))
 	replace `var'_skill = . if mi(`var') | `var' == 99 | mi(`var'_lab) |`var' == 98
 	}
