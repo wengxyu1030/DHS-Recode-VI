@@ -105,15 +105,15 @@ order *,sequential  //make sure variables are in order.
 		gen c_sevdiarrheatreat_q = (iv ==1 ) if c_sevdiarrheatreat == 1
 		
 *c_ari	Child with acute respiratory infection (ARI)	
-        gen c_ari = . 
-		replace c_ari= 1 if inlist(h31c,1,3) & ccough== 1 & h31b == 1	
-		replace c_ari= 0 if h31b==0 | ccough==0 	
+	gen c_ari = 0 if ccough != .
+		replace c_ari = 1 if h31b == 1 & ccough == 1 & inlist(h31c,1,3)
+		replace c_ari = . if inlist(h31b,8,9) | inlist(h31c,8,9)	
 		/* Children under 5 with cough and rapid breathing in the 
 		two weeks preceding the survey which originated from the chest. */
 		
-		gen c_ari2 = . 
-		replace c_ari2 = 1 if h31b == 1
-		replace c_ari2 = 0 if h31b == 0 | ccough == 0
+		gen c_ari2 = 0 if ccough != .
+		replace c_ari2 = 1 if h31b == 1 & ccough == 1
+		replace c_ari2 = . if inlist(h31b,8,9)
 		/* Children under 5 with cough and rapid breathing in the 
 		two weeks preceding the survey. */
 		
@@ -179,11 +179,10 @@ order *,sequential  //make sure variables are in order.
 		replace c_illness2 =. if c_diarrhea == . | c_ari2 == . | c_fever == .
 		
 *c_illtreat	Child with any illness symptoms taken to formal provider
-        gen c_illtreat = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI == 1) if c_illness == 1
-		replace c_illtreat = . if c_fevertreat == . | c_diarrhea_pro == . | c_treatARI == .
-
-        gen c_illtreat2 = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI == 1) if c_illness2 == 1
-		replace c_illtreat2 = . if c_fevertreat == . | c_diarrhea_pro == . | c_treatARI == .
+        	gen c_illtreat = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI == 1) if c_illness == 1
+		replace c_illtreat = . if (c_fever == 1 & c_fevertreat == .) | (c_diarrhea == 1 & c_diarrhea_pro == .) | (c_ari == 1 & c_treatARI == .) 
+        	gen c_illtreat2 = (c_fevertreat == 1 | c_diarrhea_pro == 1 | c_treatARI == 1) if c_illness2 == 1
+		replace c_illtreat2 = . if (c_fever == 1 & c_fevertreat == .) | (c_diarrhea == 1 & c_diarrhea_pro == .) | (c_ari2 == 1 & c_treatARI2 == .) 
 
 
 

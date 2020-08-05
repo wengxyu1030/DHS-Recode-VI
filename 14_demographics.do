@@ -13,6 +13,16 @@
     clonevar hm_age_yrs = hv105
 	replace hm_age_yrs = . if inlist(hv105,98,99)
 	
+	if inlist(name, "Bangladesh2011") {
+		recode hm_age_yrs (96 = 95)
+		label define age 95 "95+"
+		label value hm_age_yrs age
+	}
+	
+	if inlist(name, "Burundi2010") {
+		recode hm_age_yrs (97 = 95)
+	}
+	
 *hm_age_mon	Age in months (children only)
 	clonevar hm_age_mon = hc1
 
