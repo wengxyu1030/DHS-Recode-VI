@@ -35,11 +35,11 @@ order *,sequential
 	foreach var of varlist m2a-m2m {
 	local lab: variable label `var' 
     replace `var' = . if ///
-        !regexm("`lab'","trained") & 
-	(!regexm("`lab'","doctor|nurse|midwife|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner") ///
-	|regexm("`lab'","na^|-na|traditional birth attendant|untrained|unquallified|empirical midwife|box") )
+	!regexm("`lab'"," trained") & ///
+	(!regexm("`lab'","doctor|nurse|Nurse|Assistante Accoucheuse|Midwife|matron with office|midwife|gynecology|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|community health care provider|birth attendant|hospital/health center worker|hew|auxiliary|icds|feldsher|mch|vhw|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|family welfare visitor|medical assistant|health assistant|matron|general practitioner") ///
+	|regexm("`lab'","na^|-na|na -|NA -|untrained|care provider|: matron without office| obstetrician|family welfare|traditional birth attendant|untrained|unqualified|empirical midwife|box") )
 	replace `var' = . if !inlist(`var',0,1)
-	 }
+}
 	/* do consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
     egen anc_skill = rowtotal(m2a-m2m),mi	
