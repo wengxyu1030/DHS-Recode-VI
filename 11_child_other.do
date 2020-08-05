@@ -17,6 +17,10 @@
 	  label define w_label 1 "none" 2 "primary" 3 "lower sec or higher"
       label values w_mateduc w_label
 
-
+	if inlist(name, "Yemen2013") {
+		drop w_mateduc
+		recode sh17_a (0 = 1) (1/3 = 2) (4/6 = 3) (8=.),gen(w_mateduc)
+		label values w_mateduc w_label
+	}
 
 

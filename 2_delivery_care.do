@@ -55,6 +55,26 @@ order *,sequential  //make sure variables are in order.
 	}
 	gen c_skin2skin = .
 	
+	if inlist(name, "Armenia2010"){
+	drop c_skin2skin
+	gen c_skin2skin = (s433a  == 1) if  !mi(s433a)
+	}
+	
+	if inlist(name, "Bangladesh2014"){
+	drop c_skin2skin
+	gen c_skin2skin = (s435ai  == 1) if   !inlist(s435ai,.,8) 
+	}
+	
+	if inlist(name, "Nepal2011"){
+	drop c_skin2skin
+	gen c_skin2skin = (s431g  == 1) if   !inlist(s431g,.,8) 
+	}
+	
+	if inlist(name, "Philippines2013"){
+	drop c_skin2skin
+	gen c_skin2skin = (s435  == 1) if   !inlist(s435,.,8,9) 
+	}
+	
 	*c_sba: Skilled birth attendance of births in last 2 years: go to report to verify how "skilled is defined"
 	gen c_sba = . 
 	replace c_sba = 1 if sba_skill>=1 
