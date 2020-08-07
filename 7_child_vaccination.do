@@ -57,7 +57,7 @@ if inlist(name,"Benin2011"){
 if inlist(name,"Congorep2011"){
 		drop c_dpt1 c_dpt2 c_dpt3
 		gen c_dpt1 = .
-		replace c_dpt1 = 1 if (h3==1 | h3==2 | h3==3|inrange(s506t1,1,3)) 
+		replace c_dpt1 = 1 if (h3==1 | h3==2 | h3==3|inrange(s506t1,1,3)) // dpt, PENTACOQ
 		replace c_dpt1 = 0 if h3==0 & s506t1==0 
 
 		gen c_dpt2 = .
@@ -67,7 +67,20 @@ if inlist(name,"Congorep2011"){
 		gen c_dpt3 = .
 		replace c_dpt3 = 1 if (h7==1 | h7==2 | h7==3|inrange(s506t3,1,3)) 
 		replace c_dpt3 = 0 if h7==0 & s506t3==0 
-}							
+		
+		drop c_polio1 c_polio2 c_polio3
+		gen c_polio1 = .
+		replace c_polio1 = 1 if (inrange(h4,1,3)|inrange(s506t1,1,3))  // polio, PENTACOQ
+		replace c_polio1 = 0 if h4==0 & s506t1==0 
+
+		gen c_polio2 = .
+		replace c_polio2 = 1 if (inrange(h6,1,3)|inrange(s506t2,1,3)) 
+		replace c_polio2 = 0 if h6==0 & s506t2 ==0 
+		
+		gen c_polio3 = .
+		replace c_polio3 = 1 if (inrange(h8,1,3)|inrange(s506t3,1,3)) 
+		replace c_polio3 = 0 if h8==0 & s506t3 ==0 
+}									
 	
 if inlist(name,"Egypt2014") {
 		drop c_dpt1 c_dpt2 c_dpt3
