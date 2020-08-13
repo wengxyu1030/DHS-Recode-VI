@@ -23,7 +23,7 @@ order *,sequential
 	replace c_anc_any = 0 if m14 == 0                                              //m14 = 98 is missing 
 	
 	*c_anc_ear: First antenatal care visit in first trimester of pregnancy of births in last 2 years
-	gen c_anc_ear = 0 if m2n != .    // m13 based on Women who had seen someone for antenatal care for their last born child
+	gen c_anc_ear = 0 if m2n == 0    // m13 based on Women who had seen someone for antenatal care for their last born child
 	replace c_anc_ear = 1 if inrange(m13,0,3)
 	replace c_anc_ear = . if m13 == 98 
 	
@@ -66,7 +66,7 @@ order *,sequential
 	replace c_anc_ski_q = . if mi(c_anc_ski) & c_anc_any == 1
 	
 	*c_anc_bp: Blood pressure measured during pregnancy of births in last 2 years
-	replace c_anc_bp = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	replace c_anc_bp = 0 if m2n == 0    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
 	replace c_anc_bp = 1 if m42c==1
 	
 	*c_anc_bp_q: Blood pressure measured during pregnancy among ANC users of births in last 2 years
@@ -74,7 +74,7 @@ order *,sequential
 	replace c_anc_bp_q = . if mi(c_anc_bp) & c_anc_any == 1 
 	
 	*c_anc_bs: Blood sample taken during pregnancy of births in last 2 years
-	replace c_anc_bs = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	replace c_anc_bs = 0 if m2n == 0    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
 	replace c_anc_bs = 1 if m42e==1
 	
 	*c_anc_bs_q: Blood sample taken during pregnancy among ANC users of births in last 2 years
@@ -82,7 +82,7 @@ order *,sequential
 	replace c_anc_bs_q = . if c_anc_bs == . & c_anc_any == 1
 	
 	*c_anc_ur: Urine sample taken during pregnancy of births in last 2 years
-	replace c_anc_ur = 0 if m2n != .    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
+	replace c_anc_ur = 0 if m2n == 0    // For m42a to m42e based on women who had seen someone for antenatal care for their last born child
 	replace c_anc_ur = 1 if m42d==1
 	
 	*c_anc_ur_q: Urine sample taken during pregnancy among ANC users of births in last 2 years
