@@ -91,7 +91,7 @@ gen hm_age_yrs = v012
     do "${DO}/4_sexual_health"
     do "${DO}/5_woman_anthropometrics"
     do "${DO}/16_woman_cancer"
-	do "${DO}/17_woman_cancer_age_ref.do"
+	//do "${DO}/17_woman_cancer_age_ref.do"
 	
 *housekeeping for ind data
 
@@ -155,6 +155,8 @@ save `hh'
 ***match with external iso data
 use "${SOURCE}/external/iso", clear 
 keep country iso2c iso3c
+replace country = "KyrgyzRepublic" if country == "Kyrgyzstan"
+
 save `iso'
 
 ***merge all subset of microdata
@@ -182,7 +184,64 @@ use `hm',clear
 *** Quality Control: Validate with DHS official data
 gen surveyid = iso2c+year+"DHS"
 gen name = "`name'"
-    
+
+ 
+	if inlist(name,"BurkinaFaso2010") {
+	rename  surveyid  SurveyId
+	gen surveyname= "BF"
+	egen surveyid = concat(surveyname SurveyId )
+	}
+	
+	if inlist(name,"Burundi2010") {
+	rename surveyid SurveyId
+	gen surveyname= "BU"
+	gen surveyid = surveyname + year + "DHS"
+	}
+
+	if inlist(name,"Congorep2011") {
+	rename  surveyid  SurveyId
+	gen surveyname= "CG"
+	egen surveyid = concat(surveyname SurveyId )
+	}
+	
+	if inlist(name,"Congodr2013") {
+	rename  surveyid  SurveyId
+	gen surveyname= "CD"
+	egen surveyid = concat(surveyname SurveyId )
+	}
+	
+	if inlist(name,"DominicanRepublic2013") {
+	rename  surveyid  SurveyId
+	gen surveyname= "DR"
+	egen surveyid = concat(surveyname SurveyId )
+	}
+	
+	if inlist(name,"Namibia2013") {
+	gen SurveyId=substr(surveyid,3,7)
+	gen surveyname= "NM"
+	rename surveyid survey_id
+	egen surveyid = concat(surveyname SurveyId )
+	}
+	
+	if inlist(name,"Niger2012") {
+	gen SurveyId=substr(surveyid,3,7)
+	gen surveyname= "NI"
+	rename surveyid survey_id
+	egen surveyid = concat(surveyname SurveyId )
+	}
+	
+	if inlist(name,"SierraLeone2013"){
+	rename  surveyid  SurveyId
+	gen surveyname= "SL"
+	egen surveyid = concat(surveyname SurveyId )
+	}
+	
+	if inlist(name,"CotedIvoire2011"){
+	rename  surveyid  SurveyId
+	gen surveyname= "CI"
+	egen surveyid = concat(surveyname SurveyId )
+	}
+
 	preserve
 	do "${DO}/Quality_control"
 	save "${INTER}/quality_control-`name'",replace
