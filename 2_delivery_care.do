@@ -76,7 +76,10 @@ order *,sequential  //make sure variables are in order.
 	drop c_skin2skin
 	gen c_skin2skin = (s431g  == 1) if   !inlist(s431g,.,8) 
 	}
-	
+	if inlist(name, "Nigeria2013"){
+	drop c_skin2skin
+	gen c_skin2skin = (s437g  == 1) if   !inlist(s437g,.,8,9) 
+	}	
 	if inlist(name, "Philippines2013"){
 	drop c_skin2skin
 	gen c_skin2skin = (s435  == 1) if   !inlist(s435,.,8,9) 
@@ -140,7 +143,7 @@ order *,sequential  //make sure variables are in order.
 	
 	egen staycheck = mean(m61)
 	replace stay =. if staycheck == . 	
-		
+
 	gen c_sba_eff1 = (c_facdel == 1 & c_sba == 1 & stay == 1 & c_earlybreast == 1) 
 	replace c_sba_eff1 = . if c_facdel == . | c_sba == . | stay == . | c_earlybreast == . 
 	
