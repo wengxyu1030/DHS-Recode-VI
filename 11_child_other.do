@@ -8,7 +8,7 @@
 	
 	capture confirm variable ml0
 	if _rc == 0 {
-	replace c_ITN=(ml0==1) 								
+	replace c_ITN=inlist(ml0,1,2) 								
 	replace c_ITN=. if ml0==.                  //Children under 5 in country where malaria is endemic (only in countries with endemic)
 	}
 
@@ -17,10 +17,7 @@
 	  label define w_label 1 "none" 2 "primary" 3 "lower sec or higher"
       label values w_mateduc w_label
 
-	if inlist(name, "Yemen2013") {
-		drop w_mateduc
-		recode sh17_a (0 = 1) (1/3 = 2) (4/6 = 3) (8=.),gen(w_mateduc)
-		label values w_mateduc w_label
-	}
-
-
+*******compare with statacompiler
+preserve
+keep if b8 <5
+restore

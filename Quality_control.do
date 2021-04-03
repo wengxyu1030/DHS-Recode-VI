@@ -4,7 +4,12 @@
 /* Note: More indicators are overlapped in non-Afganistan survey: 
 for example the hiv data in DHS and adult indicators in HEFPI,
 could be adjusted later */
-
+/* Note: run for DHS.dta and replace, to allign with HEFPI 
+use "${SOURCE}/external/DHS.dta", clear
+replace surveyid = "IN2015DHS" if surveyid == "IA2015DHS"
+replace surveyid = "LR2013DHS" if surveyid == "LB2013DHS"
+replace surveyid = "" if surveyid == "TR2013DHS"
+*/
 tempfile dhs hefpi
 
 ////////////////////////////////////////////////////////////////
@@ -38,11 +43,19 @@ preserve
 	}
 
 	
-***for variables generated from 7_child_vaccination
-	foreach var of var c_bcg c_dpt1 c_dpt2 c_dpt3 c_fullimm c_measles ///
-	c_polio1 c_polio2 c_polio3{
-    replace `var' = . if !inrange(hm_age_mon,12,23)
-    }
+***for variables generated from 7_child_vaccination\
+	if !inlist(name,"DominicanRepublic2013","Tajikistan2012","Egypt2014"){
+		foreach var of var c_bcg c_dpt1 c_dpt2 c_dpt3 c_fullimm c_measles ///
+		c_polio1 c_polio2 c_polio3{
+		replace `var' = . if !inrange(hm_age_mon,12,23)
+		}
+	}
+	if inlist(name,"DominicanRepublic2013","Tajikistan2012","Egypt2014"){
+		foreach var of var c_bcg c_dpt1 c_dpt2 c_dpt3 c_fullimm c_measles ///
+		c_polio1 c_polio2 c_polio3{
+		replace `var' = . if !inrange(hm_age_mon,18,29)
+		}
+	}	
 
 ***for variables generated from 8_child_illness	
 	foreach var of var c_ari2 c_diarrhea 	c_diarrhea_hmf	c_diarrhea_medfor	c_diarrhea_mof	c_diarrhea_pro	c_diarrheaact ///
@@ -145,10 +158,18 @@ The bidx is nt used in the hefpi indicator caluclation
 	
 	
 ***for variables generated from 7_child_vaccination
-	foreach var of var c_bcg c_dpt1 c_dpt2 c_dpt3 c_fullimm c_measles ///
-	c_polio1 c_polio2 c_polio3{
-    replace `var' = . if !inrange(hm_age_mon,15,23)
-    }
+	if !inlist(name,"DominicanRepublic2013","Tajikistan2012","Egypt2014"){
+		foreach var of var c_bcg c_dpt1 c_dpt2 c_dpt3 c_fullimm c_measles ///
+		c_polio1 c_polio2 c_polio3{
+		replace `var' = . if !inrange(hm_age_mon,15,23)
+		}
+	}
+	if inlist(name,"DominicanRepublic2013","Tajikistan2012","Egypt2014"){
+		foreach var of var c_bcg c_dpt1 c_dpt2 c_dpt3 c_fullimm c_measles ///
+		c_polio1 c_polio2 c_polio3{
+		replace `var' = . if !inrange(hm_age_mon,18,29)
+		}
+	}	
 
 ***for variables generated from 8_child_illness	
 	foreach var of var 	c_diarrhea 	c_diarrhea_hmf	c_diarrhea_medfor	c_diarrhea_mof	c_diarrhea_pro	c_diarrheaact ///
