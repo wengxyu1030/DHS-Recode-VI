@@ -130,6 +130,12 @@ order *,sequential
 		
 	gen c_anc_tet = (rh_anc_neotet == 1) if  !mi(rh_anc_neotet)
 	
+	* surveys don't fully collect data on tetanous injections, code related variables to missing 
+	if inlist(name, "Armenia2010", "Bangladesh2014","KyrgyzRepublic2012","Tajikistan2012"){
+		replace c_anc_tet =.
+		replace rh_anc_neotet =.
+	} 	
+		
 	*c_anc_tet_q: pregnant women vaccinated against tetanus among ANC users for last birth in last 2 years
 	gen c_anc_tet_q = (rh_anc_neotet == 1) if c_anc_any == 1
 	replace c_anc_tet_q = . if c_anc_any == 1 & mi(rh_anc_neotet)
