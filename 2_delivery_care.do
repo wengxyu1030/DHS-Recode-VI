@@ -13,16 +13,26 @@ rename *,lower   //make lables all lowercase.
 order *,sequential  //make sure variables are in order. 
 
     *sba_skill (not nailed down yet, need check the result)
-	foreach var of varlist m3a-m3n {
-	local lab: variable label `var' 
-    replace `var' = . if ///
-    	!regexm("`lab'"," trained") & (!regexm("`lab'","doctor|nurse|Assistance|midwife|lady|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|birth attendant|hospital/health center worker|auxiliary|icds|feldsher|mch|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|medical assistant|matrone|general practitioner") ///
-	|regexm("`lab'","na^|-na|na -|Na- |NA -|husband/partner|matron |family welfare|Family welfare|student|homeopath|hakim|herself|traditionnel|Other|neighbor|provider|vhw|Friend|Relative|fieldworker|Health Worker|other|health worker|friend|relative|traditional birth attendant|hew|health assistant|untrained|unqualified|sub-assistant|empirical midwife|box")) & !(regexm("`lab'","doctor") & regexm("`lab'","other"))
-	replace `var' = . if !inlist(`var',0,1)
-	 }
+	if !inlist(name,"Bangladesh2014"){
+		foreach var of varlist m3a-m3m {
+		local lab: variable label `var' 
+		replace `var' = . if ///
+		!regexm("`lab'"," trained") & (!regexm("`lab'","doctor|nurse|Assistance|midwife|lady|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|birth attendant|hospital/health center worker|auxiliary|icds|feldsher|mch|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|medical assistant|matrone|general practitioner") ///
+		|regexm("`lab'","na^|-na|na -|Na- |NA -|husband/partner|mchw|matron |Hilot|family welfare|Family welfare|student|homeopath|hakim|herself|traditionnel|Other|neighbor|provider|vhw|Friend|Relative|fieldworker|Health Worker|other|health worker|friend|relative|traditional birth attendant|hew|health assistant|untrained|unqualified|sub-assistant|empirical midwife|box")) & !(regexm("`lab'","doctor") & regexm("`lab'","other")) & !regexm("`lab'","lady health worker")
+		replace `var' = . if !inlist(`var',0,1)
+		}
+	} 
+	if inlist(name,"Bangladesh2014"){ // 
+		recode m3a m3b m3c m3d (9 8 =.)
+		recode m3e m3f m3g m3h m3i m3j m3k m3l m3m (1 0 8 9 =.)
+	}
+	if inlist(name,"Chad2014","Congodr2013"){
+		recode m3a m3b m3c (9 8 =.)
+		recode m3d m3g m3h m3i m3j m3k (1 0 8 9 =.)
+	}
 	/* do consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
-    egen sba_skill = rowtotal(m3a-m3n),mi
+    egen sba_skill = rowtotal(m3a-m3m),mi
 
 	*c_hospdel: child born in hospital of births in last 2 years  
 	decode m15, gen(m15_lab)
