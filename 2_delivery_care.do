@@ -42,7 +42,9 @@ order *,sequential  //make sure variables are in order.
 	replace c_facdel = . if mi(m15) | m15 == 99 | mi(m15_lab)
 
 	if inlist(name,"Kenya2014"){
+		replace c_hospdel = 0 if inlist(m15,33,32)
 		replace c_facdel = 1 if m15==32 
+		replace c_facdel = 0 if m15==33 
 	}
 	
 	if inlist(name,"Yemen2013"){
