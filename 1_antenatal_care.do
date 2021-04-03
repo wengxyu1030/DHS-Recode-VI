@@ -95,7 +95,7 @@ order *,sequential
 	
 	*c_anc_ir: iron supplements taken during pregnancy of births in last 2 years
 	clonevar c_anc_ir = m45
-	replace c_anc_ir = . if m45 == 8
+	replace c_anc_ir = . if inlist(m45,8,9)
 	
 	*c_anc_ir_q: iron supplements taken during pregnancy among ANC users of births in last 2 years
 	gen c_anc_ir_q = (c_anc_ir == 1 ) if c_anc_any == 1 
@@ -135,7 +135,7 @@ order *,sequential
 		replace c_anc_tet =.
 		replace rh_anc_neotet =.
 	} 	
-		
+
 	*c_anc_tet_q: pregnant women vaccinated against tetanus among ANC users for last birth in last 2 years
 	gen c_anc_tet_q = (rh_anc_neotet == 1) if c_anc_any == 1
 	replace c_anc_tet_q = . if c_anc_any == 1 & mi(rh_anc_neotet)
