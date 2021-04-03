@@ -101,6 +101,15 @@ order *,sequential
 	gen c_anc_ir_q = (c_anc_ir == 1 ) if c_anc_any == 1 
 	replace c_anc_ir_q = . if c_anc_any == 1 & mi(anc_ir)
 	
+	if inlist(name, "Kenya2014"){
+		replace c_anc_bp = . if m42c==.
+		replace c_anc_bs = . if m42e==.
+		replace c_anc_ur = . if m42d==.
+		replace c_anc_bp_q = c_anc_bp if c_anc_any == 1 
+		replace c_anc_bs_q = c_anc_bs if c_anc_any == 1 
+		replace c_anc_ur_q = c_anc_ur if c_anc_any == 1 
+	}	
+
 	*c_anc_tet: pregnant women vaccinated against tetanus for last birth in last 2 years
 	    
 	    gen tet2lastp = 0                                                                                   //follow the definition by report. might be country specific. 
