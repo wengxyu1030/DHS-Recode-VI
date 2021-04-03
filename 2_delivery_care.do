@@ -30,8 +30,8 @@ order *,sequential  //make sure variables are in order.
 	
 	gen c_hospdel = 0 if !mi(m15)
 	replace c_hospdel = 1 if ///
-    regexm(m15_lab,"medical college|surgical") | ///
-	regexm(m15_lab,"hospital") & !regexm(m15_lab,"center|sub-center")
+	regexm(m15_lab,"medical college|surgical") | ///
+	(regexm(m15_lab,"hospital") & !regexm(m15_lab,"home")) & !regexm(m15_lab,"center|sub-center|clin|clinic")
 	replace c_hospdel = . if mi(m15) | m15 == 99 | mi(m15_lab)	
     // please check this indicator in case it's country specific	
 	
