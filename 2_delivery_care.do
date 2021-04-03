@@ -96,13 +96,51 @@ order *,sequential  //make sure variables are in order.
 	replace c_caesarean =. if m17==9
 	
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
-    
-	gen stay = 0 if !inlist(m15,.,99) 
-	replace stay = 1 if stay == 0 & (inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,398))
-	replace stay = . if inlist(m61,199,299,998) // filter question, based on m15
-	egen m61mis = mean(m61)
-	replace stay = . if m61mis ==.
+	if !inlist(name,"Ghana2014","Namibia2013","India2015","KyrgyzRepublic2012","Niger2012","Pakistan2012","Uganda2011"){
+	gen stay = 0
+	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,96) // filter question, based on m15
+	}
+	if inlist(name,"Ghana2014"){
+	gen stay = 0
+	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,23,96) // filter question, based on m15
+	}	
+	if inlist(name,"India2015"){
+	gen stay = 0
+	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,21,96) // filter question, based on m15
+	}	
+	if inlist(name,"Namibia2013","Pakistan2012"){
+	gen stay = 0
+	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,36,96) // filter question, based on m15
+	}
+	if inlist(name,"Niger2012"){
+	gen stay = 0
+	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,27,36,96) // filter question, based on m15
+	}
+	if inlist(name,"KyrgyzRepublic2012"){
+	gen stay = 0
+	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,23,96) // filter question, based on m15
+	}	
+	if inlist(name,"Uganda2011"){
+	gen stay = 0
+	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
+	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,13,96) // filter question, based on m15
+	}	
+	if inlist(name,"Bangladesh2011"){
+		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,96)  
+	}	
+	if inlist(name,"Guatemala2014","Jordan2012","Mali2012","Tajikistan2012"){
+		replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12)  
+	}
 	
+	egen staycheck = mean(m61)
+	replace stay =. if staycheck == . 	
+		
 	gen c_sba_eff1 = (c_facdel == 1 & c_sba == 1 & stay == 1 & c_earlybreast == 1) 
 	replace c_sba_eff1 = . if c_facdel == . | c_sba == . | stay == . | c_earlybreast == . 
 	
