@@ -7,15 +7,19 @@ ren v008 dateinterview
 ren b3_01 wdoblastchild
 rename v213 wpregnant
 
-*w_bmi_1549	15-49y woman's BMI      
+*w_bmi_1549	15-49y woman's BMI    
 	foreach var of varlist v437 v438 {
-	replace `var'=. if `var'==9999
-	}
+	replace `var'=. if `var'==9994
+	}  
 	replace v437=v437/10
 	replace v438=v438/1000
 	
 	replace v437=. if v437>250
 	replace v438=. if v438>2.50
+	
+	if inlist(name,"Mali2012"){
+		recode v437 (0=.)  //5 cases where woman's weight = 0, recode to .
+	}
 		
 	gen w_bmi_1549=v437/(v438)^2	
 	replace w_bmi_1549=. if (dateinterview-wdoblastchild)<=3 | wpregnant==1
@@ -47,6 +51,3 @@ rename v213 wpregnant
 	
 *wm_sampleweight sample weight for individual woman
     gen w_sampleweight = v005/10e6
-
-
-	

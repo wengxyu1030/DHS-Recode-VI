@@ -1,4 +1,3 @@
-
 ******************
 *** hiv***********
 ******************
@@ -21,5 +20,3 @@ the existance of the hiv data */
     *hiv_sampleweight Sample weight for hiv prevalence estimates
     gen a_hiv_sampleweight = hiv05/10e6
 	
-	
-

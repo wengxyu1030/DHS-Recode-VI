@@ -12,7 +12,7 @@ gen country = regexs(1) if regexm(country_year, "([a-zA-Z]+)")
 rename *,lower   //make lables all lowercase. 
 order *,sequential  //make sure variables are in order. 
 
-    *sba_skill (not nailed down yet, need check the result)
+	*sba_skill: Categories as skilled: doctor, nurse, midwife, auxiliary nurse/midwife...
 	if !inlist(name,"Bangladesh2014"){
 		foreach var of varlist m3a-m3m {
 		local lab: variable label `var' 
@@ -33,7 +33,7 @@ order *,sequential  //make sure variables are in order.
 	/* do consider as skilled if contain words in 
 	   the first group but don't contain any words in the second group */
     egen sba_skill = rowtotal(m3a-m3m),mi
-
+	
 	*c_hospdel: child born in hospital of births in last 2 years  
 	decode m15, gen(m15_lab)
 	replace m15_lab = lower(m15_lab)
@@ -62,18 +62,19 @@ order *,sequential  //make sure variables are in order.
 	}
 	
 	*c_earlybreast: child breastfed within 1 hours of birth of births in last 2 years
-    gen c_earlybreast = 0
-    replace c_earlybreast = 1 if inlist(m34,0, 100)
-	replace c_earlybreast = . if inlist(m34,199, 999)
-	replace c_earlybreast = . if m34 ==. & m4 != 94
+	gen c_earlybreast = 0
+	
+	replace c_earlybreast = 1 if inlist(m34,0,100)
+	replace c_earlybreast = . if inlist(m34,999,199)
+	replace c_earlybreast = . if m34 ==. & m4 != 94 // case where m34 is missing that is not due to "no breastfeed"
 	
     *c_skin2skin: child placed on mother's bare skin immediately after birth of births in last 2 years
 	capture confirm variable m77
 	if _rc == 0{
-	gen c_skin2skin = (m77 == 1) if !mi(m77)               //though missing but still a place holder.(the code might change depends on how missing represented in surveys)
+	gen c_skin2skin = (m77 == 1) if !mi(m77)               
 	}
 	gen c_skin2skin = .
-	
+
 	if inlist(name, "Armenia2010"){
 	drop c_skin2skin
 	gen c_skin2skin = (s433a  == 1) if  !mi(s433a)
@@ -88,10 +89,12 @@ order *,sequential  //make sure variables are in order.
 	drop c_skin2skin
 	gen c_skin2skin = (s431g  == 1) if   !inlist(s431g,.,8) 
 	}
+	
 	if inlist(name, "Nigeria2013"){
 	drop c_skin2skin
 	gen c_skin2skin = (s437g  == 1) if   !inlist(s437g,.,8,9) 
-	}	
+	}
+	
 	if inlist(name, "Philippines2013"){
 	drop c_skin2skin
 	gen c_skin2skin = (s435  == 1) if   !inlist(s435,.,8,9) 
@@ -109,7 +112,8 @@ order *,sequential  //make sure variables are in order.
 	*c_caesarean: Last birth in last 2 years delivered through caesarean                    
 	clonevar c_caesarean = m17
 	replace c_caesarean =. if m17==9
-	
+	replace c_caesarean = . if inlist(m15,.,99,98)
+
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
 	if !inlist(name,"Ghana2014","Namibia2013","India2015","KyrgyzRepublic2012","Niger2012","Pakistan2012","Uganda2011"){
 	gen stay = 0
@@ -154,21 +158,20 @@ order *,sequential  //make sure variables are in order.
 	}
 	
 	egen staycheck = mean(m61)
-	replace stay =. if staycheck == . 	
+	replace stay =. if staycheck == . 
 
 	gen c_sba_eff1 = (c_facdel == 1 & c_sba == 1 & stay == 1 & c_earlybreast == 1) 
 	replace c_sba_eff1 = . if c_facdel == . | c_sba == . | stay == . | c_earlybreast == . 
+	// you may need to check if this code work for all countries, which is the case in Recode VII. In this case, you don't need if inlist() anymore.
 	
 	*c_sba_eff1_q: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth) among those with any SBA
-        gen c_sba_eff1_q = c_sba_eff1 if c_sba == 1
+	gen c_sba_eff1_q = c_sba_eff1 if c_sba == 1
 	
 	*c_sba_eff2: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth, skin2skin contact)
 	gen c_sba_eff2 = (c_facdel == 1 & c_sba == 1 & stay == 1 & c_earlybreast == 1 & c_skin2skin == 1) 
 	replace c_sba_eff2 = . if c_facdel == . | c_sba == . | stay == . | c_earlybreast == . | c_skin2skin == .
 	
 	*c_sba_eff2_q: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth, skin2skin contact) among those with any SBA
-	gen c_sba_eff2_q = c_sba_eff2 if c_sba == 1
-
-
-
+	gen c_sba_eff2_q =  c_sba_eff2 if c_sba == 1
+	
 	

@@ -1,6 +1,5 @@
 /* This file is to identify the gap between the microdataset,
  DHS, and HEFPI. */
-
 /* Note: More indicators are overlapped in non-Afganistan survey: 
 for example the hiv data in DHS and adult indicators in HEFPI,
 could be adjusted later */
@@ -13,7 +12,7 @@ replace surveyid = "" if surveyid == "TR2013DHS"
 tempfile dhs hefpi
 
 ////////////////////////////////////////////////////////////////
-///// Crosscheck with the DHS STATcompiler Indicator Result/////
+///// Crosscheck with the DHS STATcompiler Indicator Result/////Ω
 ////////////////////////////////////////////////////////////////
 
 ****************************************************************
@@ -56,7 +55,6 @@ preserve
 		replace `var' = . if !inrange(hm_age_mon,18,29)
 		}
 	}	
-
 ***for variables generated from 8_child_illness	
 	foreach var of var c_ari2 c_diarrhea 	c_diarrhea_hmf	c_diarrhea_medfor	c_diarrhea_mof	c_diarrhea_pro	c_diarrheaact ///
 	c_diarrheaact_q	c_fever	c_fevertreat	c_illness	c_illtreat	c_sevdiarrhea	c_sevdiarrheatreat ///
@@ -151,10 +149,8 @@ The bidx is nt used in the hefpi indicator caluclation
 	}
 	
 	***for women, reference population differs.
-    if inlist(name,"Armenia2010"){
     replace w_papsmear=. if hm_age_yrs<20|hm_age_yrs>49
 	replace w_mammogram=. if hm_age_yrs<40|hm_age_yrs>49
-	}	
 	
 	
 ***for variables generated from 7_child_vaccination

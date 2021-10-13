@@ -1,5 +1,4 @@
-
-******************************
+*****************************
 *** Child anthropometrics ****
 ******************************   
 	if inlist(name,"Turkey2013"){
@@ -22,7 +21,6 @@
 	
 *c_stunted: Child under 5 stunted
     foreach var in hc70 hc71 {
-    replace `var'=. if `var'>900
     replace `var'=`var'/100
     }
     replace hc70=. if hc70<-6 | hc70>6

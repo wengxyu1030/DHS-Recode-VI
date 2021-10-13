@@ -1,9 +1,8 @@
-
 ******************************
 *** Child mortality***********
 ******************************   
 
-*mor_dob				Child date of birth (cmc)
+*mor_dob				Child date of birth (cmc)G
     clonevar mor_dob = b3
 	
 *mor_wln				Woman line number in HH to match child with mother (original)
@@ -26,6 +25,3 @@
 *mor_afl				Child age at death imputation flag
     clonevar mor_afl = b13
 	
-
-
-
