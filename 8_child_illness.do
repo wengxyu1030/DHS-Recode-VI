@@ -154,9 +154,25 @@ order *,sequential  //make sure variables are in order.
 		}
 	
 *c_fevertreat	Child with fever symptoms seen by formal provider			      
+/* Before DW OCT2021 debugging
 	    gen c_fevertreat = 0 if c_fever == 1
         replace c_fevertreat = 1 if c_fevertreat == 0 & pro_ari >= 1 
         replace c_fevertreat  = . if pro_ari == . 	
+*/
+       if !inlist(name,"Senegal2014","Senegal2012","Senegal2015"){  //For v000 == SN6, there's category don't show in label but back to survey. 	
+			gen c_fevertreat = 0 if c_fever == 1
+			replace c_fevertreat = 1 if c_fevertreat == 0 & pro_ari >= 1 
+			replace c_fevertreat  = . if pro_ari == . 	
+	   }
+	   else {
+			global h32 h32a h32b h32c h32d h32e h32g h32h h32j h32l h32m h32n h32p h32q
+			gen c_fevertreat = 0 if c_fever == 1
+			
+			foreach var in $h32 {
+				replace c_fevertreat = 1 if c_fevertreat == 0 & `var' == 1 
+				replace c_fevertreat = . if `var' == .
+			}			
+	   }
 		
 *c_illness	Child with any illness symptoms in last two weeks
    		gen c_illness = (c_diarrhea == 1 | c_ari == 1 | c_fever == 1) 
