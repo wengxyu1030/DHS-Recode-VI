@@ -42,20 +42,18 @@ do "${DO}/0_GLOBAL.do"
 /*
 issue
 
-Armenia2010 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VI/DHS-Armenia2010/DHS-Armenia2010birth.dta not Stata format
-
 Mali2010 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VI/DHS-Mali2010/DHS-Mali2010birth.dta not ound
 
 Senegal2012 pro_ari not found
 Senegal2014 pro_ari not found
 Senegal2015 pro_ari not found
 
-Togo2013 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode
-    VI/DHS-Togo2013/DHS-Togo2013ind.dta not Stata format
+KyrgyzRepublic2012 variable a_bp_meas_ref not found
+Lesotho2014 variable a_bp_meas_ref not found
 
 */
 
-foreach name in $DHScountries_Recode_VI {
+foreach name in $DHScountries_Recode_VI  {
 tempfile birth ind men hm hiv hh iso 
 
 
