@@ -17,27 +17,28 @@ macro drop _all
 ******************************
 
 //NOTE FOR WINDOWS USERS : use "/" instead of "\" in your paths
-global root "/Users/xianzhang/Dropbox/DHS"
+
+* Define root depend on the stata user. 
+if "`c(username)'" == "xweng"     local pc = 1
+if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 
 * Define path for data sources
-global SOURCE "/Volumes/alan/DHS/RAW DATA/Recode VI"
+global SOURCE "${root}/RAW DATA/Recode VI"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
 
-* Define path for INTERMEDIATE 
+* Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
 
-* Define path for do-files 
-global DO "${root}/STATA/DO/SC/DHS/Recode VI"
+* Define path for do-files
+if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VI"
 
 * Define the country names (in globals) in by Recode
-do "${DO}/0_GLOBAL.do" 
+do "${DO}/0_GLOBAL.do"
 
 
-//Namibia2013 Senegal2010 
-
-foreach name in  $DHScountries_Recode_VI {
+foreach name in  $DHScountries_Recode_VI  {
 tempfile birth ind men hm hiv hh iso 
 
 
