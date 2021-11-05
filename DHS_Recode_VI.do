@@ -20,33 +20,32 @@ macro drop _all
 
 * Define root depend on the stata user. 
 if "`c(username)'" == "xweng"     local pc = 1
+	if "`c(username)'" == "robinwang"     local pc = 4
+
 if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
+	if `pc' == 4 global root "/Users/robinwang/Documents/MEASURE UHC DATA"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VI"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
+	if `pc' == 4 global OUT "${root}/STATA/DATA/SC/FINAL"
 
 * Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
+	if `pc' == 4 global INTER "${root}/STATA/DATA/SC/INTER"
 
 * Define path for do-files
 if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VI"
+	if `pc' == 4 global DO "/Users/robinwang/Documents/MEASURE UHC DATA/DHS-Recode-VI"
 
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
 
 
-//Namibia2013 Senegal2010 
 /*
 issue
-
-Mali2010 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VI/DHS-Mali2010/DHS-Mali2010birth.dta not ound
-
-Senegal2012 pro_ari not found
-Senegal2014 pro_ari not found
-Senegal2015 pro_ari not found
 
 KyrgyzRepublic2012 variable a_bp_meas_ref not found
 Lesotho2014 variable a_bp_meas_ref not found
