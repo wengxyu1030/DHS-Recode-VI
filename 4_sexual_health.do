@@ -2,9 +2,11 @@
 *** Sexual health*******
 ************************ 	
 
-	gen w_married=(v502==1)
-	replace w_married=. if v502==.
-	
+	* w_married: 1 if woman and mother currently married or living in union, 0 otherwise (v501 in DHS and ma1 in MICS woman dataset) – i.e. have it for both woman and child level observations ; coded no response as .
+		gen w_married = .
+		replace w_married = 1 if inlist(v501,1,2)
+		replace w_married = 0 if !inlist(v501,1,2) & v501 != .
+		
 	*w_condom_conc: 18-49y woman who had more than one sexual partner in the last 12 months and used a condom during last intercourse
      ** Concurrent partnerships 
 	recode v766b (98 99 =.)
@@ -64,4 +66,4 @@
 	
     *w_metany_fp_q 15-49y married or in union using modern contraceptives among those with need for family planning who use any contraceptives (1/0)
     gen w_metany_fp_q = (w_CPR == 1) if w_need_fp == 1 
-	 
+
