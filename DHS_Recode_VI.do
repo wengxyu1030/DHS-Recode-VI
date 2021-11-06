@@ -67,7 +67,7 @@ Togo2013 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode
 -  AW reports issue rerunning, DW team resolves. Successful, no changes.
 
 */
-
+global DHScountries_Recode_VI "Philippines2013"
 foreach name in $DHScountries_Recode_VI {
 tempfile birth ind men hm hiv hh iso 
 
@@ -148,7 +148,7 @@ gen name = "`name'"
     do "${DO}/14_demographics"
 	
 	
-keep hv001 hv002 hvidx hc70 hc71 ///
+keep hv001 hv002 hvidx hc70 hc71 hc72 ///
 c_* ant_* a_* hm_* ln
 save `hm'
 
@@ -177,6 +177,9 @@ use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
     merge 1:m v001 v002 v003 using "${SOURCE}/DHS-`name'/DHS-`name'birth.dta"
     rename (v001 v002 v003) (hv001 hv002 hvidx) 
     drop _merge
+	
+	gen country_name = "`name'"
+
     do "${DO}/15_household"
 
 keep hv001 hv002 hv003 hh_* 
@@ -308,7 +311,7 @@ gen name = "`name'"
     }
 	
 	***for vriables generated from 9_child_anthropometrics
-	foreach var of var c_underweight c_stunted	hc70 hc71 ant_sampleweight{
+	foreach var of var c_underweight c_stunted hc70 hc71 hc72 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
 	
@@ -323,6 +326,11 @@ gen name = "`name'"
     }
 	
 *** Label variables
+	* DW Nov 2021
+	rename hc71 c_wfa
+	rename hc70 c_hfa
+	rename hc72 c_wfh
+	
     cap drop bidx surveyid
     do "${DO}/Label_var"
 	
