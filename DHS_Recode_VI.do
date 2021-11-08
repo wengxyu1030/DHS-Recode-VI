@@ -67,7 +67,7 @@ Togo2013 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode
 -  AW reports issue rerunning, DW team resolves. Successful, no changes.
 
 */
-global DHScountries_Recode_VI "Philippines2013"
+global DHScountries_Recode_VI "KyrgyzRepublic2012"
 foreach name in $DHScountries_Recode_VI {
 tempfile birth ind men hm hiv hh iso 
 
@@ -142,8 +142,7 @@ save `ind'
 ************************************
 use "${SOURCE}/DHS-`name'/DHS-`name'hm.dta", clear
 gen name = "`name'"
-
-    do "${DO}/9_child_anthropometrics"    
+    do "${DO}/9_child_anthropometrics"  
     do "${DO}/13_adult"
     do "${DO}/14_demographics"
 	
