@@ -21,25 +21,36 @@ macro drop _all
 * Define root depend on the stata user. 
 if "`c(username)'" == "xweng"     local pc = 1
 	if "`c(username)'" == "robinwang"     local pc = 4
+	    if "`c(username)'" == "crystalo"     local pc = 5
+		
 
+	
 if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 	if `pc' == 4 global root "/Users/robinwang/Documents/MEASURE UHC DATA"
+	    if `pc' == 5 global root "/Users/crystalo/Downloads"
 
+	
 * Define path for data sources
-global SOURCE "${root}/RAW DATA/Recode VI"
+global SOURCE "${root}/RAW DATA"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
-	if `pc' == 4 global OUT "${root}/STATA/DATA/SC/FINAL"
+	if `pc' == 4 global OUT "${root}/FINAL_"
+		if `pc' == 5 global INTER "${root}/FINAL_"
+
 
 * Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
 	if `pc' == 4 global INTER "${root}/STATA/DATA/SC/INTER"
+	if `pc' == 5 global INTER "${root}/FINAL_"
 
+	
 * Define path for do-files
 if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VI"
 	if `pc' == 4 global DO "/Users/robinwang/Documents/MEASURE UHC DATA/DHS-Recode-VI"
+	if `pc' == 5 global DO "/Users/crystalo/Documents/Github/DHS-Recode-VI"
 
+	
 * Define the country names (in globals) in by Recode
 do "${DO}/0_GLOBAL.do"
 
@@ -67,7 +78,7 @@ Togo2013 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode
 -  AW reports issue rerunning, DW team resolves. Successful, no changes.
 
 */
-global DHScountries_Recode_VI "Philippines2013"
+global DHScountries_Recode_VI "Armenia2010"
 foreach name in $DHScountries_Recode_VI {
 tempfile birth ind men hm hiv hh iso 
 
