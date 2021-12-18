@@ -53,13 +53,13 @@
 *mother's line number
 	gen c_motherln = hv112
 
-*c_stuund: Both stunted and wasted
+*c_stu_was: Both stunted and wasted
 		gen c_stu_was = (c_stunted == 1 & c_wasted ==1) 
 		replace c_stu_was = . if c_stunted == . | c_wasted == . 
 		label define l_stu_was 1 "Both stunted and wasted"
 		label values c_stu_was l_stu_was		
 
-*c_stuund_sev: Both severely stunted and severely wasted		
+*c_stu_was_sev: Both severely stunted and severely wasted		
 		gen c_stu_was_sev = (c_stunted_sev == 1 & c_wasted_sev == 1)
 		replace c_stu_was_sev = . if c_stunted_sev == . | c_wasted_sev == . 
 		label define l_stu_was_sev 1 "Both severely stunted and severely wasted"
