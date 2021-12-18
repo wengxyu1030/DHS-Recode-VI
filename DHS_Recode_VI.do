@@ -67,7 +67,10 @@ Togo2013 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode
 -  AW reports issue rerunning, DW team resolves. Successful, no changes.
 
 */
-global DHScountries_Recode_VI "Philippines2013"
+
+* 
+
+global DHScountries_Recode_VI "KyrgyzRepublic2012 Lesotho2014"
 foreach name in $DHScountries_Recode_VI {
 tempfile birth ind men hm hiv hh iso 
 
@@ -311,7 +314,7 @@ gen name = "`name'"
     }
 	
 	***for vriables generated from 9_child_anthropometrics
-	foreach var of var c_underweight c_stunted hc70 hc71 hc72 ant_sampleweight{
+	foreach var of var c_underweight c_stunted c_wasted c_stunted_sev c_underweight_sev c_wasted_sev c_stu_was c_stu_was_sev hc70 hc71 hc72 ant_sampleweight{
     replace `var' = . if !inrange(hm_age_mon,0,59)
     }
 	
