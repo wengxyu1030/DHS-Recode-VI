@@ -190,7 +190,6 @@ use "if inlist" instead of "capture" for sys&dial, in case the variables listed 
 	
 	if inlist(name, "KyrgyzRepublic2012") {
 		drop a_bp_treat a_bp_sys a_bp_dial  a_hi_bp140_or_on_med /*a_bp_meas_ref*/
-		
 		tempfile t1 t2
 		preserve 
 		use "${SOURCE}/DHS-KyrgyzRepublic2012/DHS-KyrgyzRepublic2012ind.dta", clear	
@@ -243,6 +242,7 @@ use "if inlist" instead of "capture" for sys&dial, in case the variables listed 
 	
 	if inlist(name, "Lesotho2014") {
 		drop a_bp_treat a_diab_treat a_bp_meas a_hi_bp140 a_hi_bp140_or_on_med /*a_bp_meas_ref*/
+
 		tempfile t1 t2
 		preserve 
 		use "${SOURCE}/DHS-Lesotho2014/DHS-Lesotho2014ind.dta", clear
