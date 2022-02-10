@@ -67,8 +67,7 @@ Togo2013 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode
 -  AW reports issue rerunning, DW team resolves. Successful, no changes.
 
 */
-
-global DHScountries_Recode_VI "KyrgyzRepublic2012 Lesotho2014"
+global DHScountries_Recode_VI "India2015"
 
 foreach name in $DHScountries_Recode_VI {
 tempfile birth ind men hm hiv hh iso 
@@ -111,6 +110,12 @@ use "${SOURCE}/DHS-`name'/DHS-`name'birth.dta", clear
     *hm_doi	date of interview (cmc)
     gen hm_doi = v008
 	
+	* FEB 2022 DW	
+	* w_married: 1 if woman and mother currently married or living in union, 0 otherwise (v501 in DHS and ma1 in MICS woman dataset) – i.e. have it for both woman and child level observations ; coded no response as .
+		gen w_married = .
+		replace w_married = 1 if inlist(v501,1,2)
+		replace w_married = 0 if !inlist(v501,1,2) & v501 != .
+				
 rename (v001 v002 b16) (hv001 hv002 hvidx)
 keep hv001 hv002 hvidx bidx c_* mor_* w_* hm_*
 save `birth'
