@@ -45,30 +45,10 @@ if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VI"
 do "${DO}/0_GLOBAL.do"
 
 //Namibia2013 Senegal2010 
-/*
-issue
 
-Armenia2010 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VI/DHS-Armenia2010/DHS-Armenia2010birth.dta not Stata format
--  AW reports issue rerunning, DW team resolves. Successful, no changes.
-
-Mali2010 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode VI/DHS-Mali2010/DHS-Mali2010birth.dta not ound
-- Mali2012? Mali2010 not in OneDrive folder. Also, DHS site shows Mali2010 being a special survey type, whereas Mali2012 is marked as standard DHS
-- No indication of Mali2010 being found anywhere in DHS-Recode-VI programmes
-- Mali2012 rerun successful, no changes. 
-
-Senegal2012 pro_ari not found
-Senegal2014 pro_ari not found
-Senegal2015 pro_ari not found
-- in folder are Senegal2010/2012/2014/2015/2016
-- Senegal2010/2016 successful
-- Senegal2012/2014/2015, updated code in 8_child_illness, for c_fevertreat var, not affecting surveys other than these three
-
-Togo2013 file C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA/RAW DATA/Recode
-    VI/DHS-Togo2013/DHS-Togo2013ind.dta not Stata format
--  AW reports issue rerunning, DW team resolves. Successful, no changes.
-
-*/
 global DHScountries_Recode_VI "India2015"
+
+global DHScountries_Recode_VI "Armenia2010 Bangladesh2011 Bangladesh2014 Benin2011 BurkinaFaso2010 Burundi2010 Cambodia2014 Cameroon2011 Chad2014 Comoros2012 Congorep2011 Congodr2013 DominicanRepublic2013 Egypt2014 Ethiopia2011 Gabon2012 Gambia2013 Ghana2014 Guatemala2014 Guinea2012 Haiti2012 Honduras2011 Indonesia2012 Jordan2012 Kenya2014 KyrgyzRepublic2012 Lesotho2014 Liberia2013 Mali2012 Mozambique2011 Namibia2013 Nepal2011 Niger2012 Nigeria2013 Pakistan2012 Rwanda2010 Rwanda2014 Senegal2010 Senegal2012 Senegal2014 Senegal2015 Senegal2016 SierraLeone2013 Tajikistan2012 Togo2013 Uganda2011 Yemen2013 Zambia2013 Zimbabwe2010"
 
 foreach name in $DHScountries_Recode_VI {
 tempfile birth ind men hm hiv hh iso 
@@ -300,7 +280,8 @@ gen name = "`name'"
 	c_anc_eff3	c_anc_eff3_q	c_anc_ir	c_anc_ir_q	c_anc_ski	c_anc_ski_q ///
 	c_anc_tet	c_anc_tet_q	c_anc_ur	c_anc_ur_q	c_caesarean	c_earlybreast ///
 	c_facdel	c_hospdel	c_sba	c_sba_eff1	c_sba_eff1_q	c_sba_eff2 ///
-	c_sba_eff2_q	c_sba_q	c_skin2skin	c_pnc_any	c_pnc_eff	c_pnc_eff_q c_pnc_eff2	c_pnc_eff2_q {
+	c_sba_eff2_q	c_sba_q	c_skin2skin	c_pnc_any	c_pnc_eff	c_pnc_eff_q c_pnc_eff2 /// 
+	c_pnc_eff2_q c_anc_public c_anc_hosp {
     replace `var' = . if !(inrange(hm_age_mon,0,23)& bidx ==1)
     }
 	

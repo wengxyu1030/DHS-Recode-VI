@@ -163,8 +163,19 @@ order *,sequential
 			 }
 
 	}
-
+	
 	*c_anc_public : Received antenatal care in public facilities	 
+	gen c_anc_public = .
+	replace c_anc_public = 0 if !mi(m15)
+
+	capture confirm variable m57a
+	if !_rc {
+		foreach var of varlist m57e-m57l {
+			replace c_anc_public = 1 if `var'==1
+			 }
+	}	
+	
+	/*
 	gen c_anc_public = .
 	replace c_anc_public = 0 if !mi(m15)
 	
@@ -176,6 +187,7 @@ order *,sequential
 			 }
 			
 	}
+	*/
 	
 	*w_sampleweight.
 	gen w_sampleweight = v005/10e6	
