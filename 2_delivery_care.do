@@ -19,6 +19,7 @@ order *,sequential  //make sure variables are in order.
 		replace `var' = . if ///
 		!regexm("`lab'"," trained") & (!regexm("`lab'","doctor|nurse|Assistance|midwife|lady|mifwife|aide soignante|assistante accoucheuse|clinical officer|mch aide|auxiliary birth attendant|physician assistant|professional|ferdsher|feldshare|skilled|birth attendant|hospital/health center worker|auxiliary|icds|feldsher|mch|village health team|health personnel|gynecolog(ist|y)|obstetrician|internist|pediatrician|medical assistant|matrone|general practitioner") ///
 		|regexm("`lab'","na^|-na|na -|Na- |NA -|husband/partner|mchw|matron |Hilot|family welfare|Family welfare|student|homeopath|hakim|herself|traditionnel|Other|neighbor|provider|vhw|Friend|Relative|fieldworker|Health Worker|other|health worker|friend|relative|traditional birth attendant|hew|health assistant|untrained|unqualified|sub-assistant|empirical midwife|box")) & !(regexm("`lab'","doctor") & regexm("`lab'","other")) & !regexm("`lab'","lady health worker")
+
 		replace `var' = . if !inlist(`var',0,1)
 		}
 	} 
@@ -56,11 +57,29 @@ order *,sequential  //make sure variables are in order.
 		replace c_facdel = 1 if m15==32 
 		replace c_facdel = 0 if m15==33 
 	}
-	
 	if inlist(name,"Yemen2013"){
 		replace c_facdel = 1 if m15==31 | m15==41 
 	}
-	
+	if inlist(name,"Tajikistan2012"){
+		replace c_hospdel = 1 if m15==21 | m15==22 | m15==31 /*consider maternity home as hospital*/ 
+		replace c_facdel = 1 if m15==21 | m15==22 | m15==23 | m15==31
+	}
+	if inlist(name,"Armenia2010"){
+		replace c_hospdel = 1 if m15==21 | m15==22 | m15==31 | m15==32 /*consider maternity home as hospital, questions on private*/ 
+		replace c_facdel = 1 if inlist(m15,21,22,26,24,31,32) 
+	}	
+	if inlist(name,"Bangladesh2014"){
+		replace c_hospdel = 1 if m15==21 | m15==22 | m15==31 /*private hospital/clinic as hospital, public/district hospitals count as well*/ 
+		replace c_facdel = 1 if inlist(m15,21,22,23,27) |  m15==31 | m15==41
+	}		
+	if inlist(name,"Bangladesh2011"){
+		replace c_hospdel = 1 if inlist(m15,21,22,23,31,32,41) /*private hospital/clinic as hospital, public/district hospitals, special medical college count as well*/ 
+		replace c_facdel = 1 if inlist(m15,21,22,23,24,25,26,31,32,41)
+	}		
+	if inlist(name,"KyrgyzRepublic2012"){
+		replace c_hospdel = 1 if m15==21 | m15==22 /*gov, and maternity home*/ 
+		replace c_facdel = 1 if inlist(m15,21,22,23,26) |  m15==31 /*do we include private hospital/clinic?*/
+	}		
 	*c_earlybreast: child breastfed within 1 hours of birth of births in last 2 years
 	gen c_earlybreast = 0
 	

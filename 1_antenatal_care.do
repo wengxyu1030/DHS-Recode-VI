@@ -168,13 +168,12 @@ order *,sequential
 	gen c_anc_public = .
 	replace c_anc_public = 0 if !mi(m15)
 
-	capture confirm variable m57a
+	capture confirm variable m57e
 	if !_rc {
 		foreach var of varlist m57e-m57l {
-			replace c_anc_public = 1 if `var'==1
-			 }
-	}	
-	
+			replace c_anc_public = 1 if `var'==1	
+		}
+	}
 	/*
 	gen c_anc_public = .
 	replace c_anc_public = 0 if !mi(m15)
