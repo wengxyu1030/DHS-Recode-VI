@@ -129,6 +129,10 @@ label var hv002  "Household number (original)"
 label var hv003  "Respondent's line number in household roster (original)"
 label var w_papsmear  "Women received a pap smear (1/0)"
 label var w_mammogram  "Women received a mammogram (1/0)"
+label var w_papsmear_ref  "Women received a pap smear, reference period (1/0)"
+label var w_mammogram_ref  "Women received a mammogram, refrence period (1/0)"
+label var w_papsmear_age  "Women received a pap smear, age group (1/0)"
+label var w_mammogram_age  "Women received a mammogram, age group (1/0)"
 label var survey  "Survey name"
 label var year  "Year survey conducted (if multiple, put in first)"
 label var country  "WB country name"
@@ -145,11 +149,18 @@ label var iso2c  "iso2 country code"
 		label var c_wfa "Child: 0-4y WfA std.dev. from median (WHO), hc71"
 		label var c_wfh "Child: 0-4y WfH std.dev. from median (WHO), hc72"	
 		label var hm_birthorder "Birth Order"
-		label var c_magebrt "Age of the mother at the child’s birth, based on hw1 and v012"
+		label var c_magebrt "Age of the mother at the child’s birth, based on b2, v007 and v012"
 		cap label var hh_religion "Head of Household Religion"
 		label var hh_watersource "Water Source"
 		label var hh_toilet "Toilet type"
 
+* DW Apr 2021
+		label var c_mateduclvl_raw "Level of education of child's mother - original variable"
+		label var c_maleduclvl_raw "Level of education of husband/partner - original variable"
+		label var hh_headage_raw "Age of head of household - original"
+		label var hh_headsex_raw "Sex of head of household - original"
+		label var hh_headedu_comp "Education of head of household - computed"
+		
 foreach v of varlist * {
     local x : variable label `v'
     if "`x'" == "" drop `v'
