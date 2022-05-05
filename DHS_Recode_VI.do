@@ -49,7 +49,6 @@ do "${DO}/0_GLOBAL.do"
 global DHScountries_Recode_VI "India2015"
 
 global DHScountries_Recode_VI "Armenia2010 Bangladesh2011 Bangladesh2014 Benin2011 BurkinaFaso2010 Burundi2010 Cambodia2014 Cameroon2011 Chad2014 Comoros2012 Congorep2011 Congodr2013 DominicanRepublic2013 Egypt2014 Ethiopia2011 Gabon2012 Gambia2013 Ghana2014 Guatemala2014 Guinea2012 Haiti2012 Honduras2011 Indonesia2012 Jordan2012 Kenya2014 KyrgyzRepublic2012 Lesotho2014 Liberia2013 Mali2012 Mozambique2011 Namibia2013 Nepal2011 Niger2012 Nigeria2013 Pakistan2012 Rwanda2010 Rwanda2014 Senegal2010 Senegal2012 Senegal2014 Senegal2015 Senegal2016 SierraLeone2013 Tajikistan2012 Togo2013 Uganda2011 Yemen2013 Zambia2013 Zimbabwe2010"
-global DHScountries_Recode_VI "Gambia2013 Ghana2014 Guatemala2014 Guinea2012 Haiti2012 Honduras2011 Indonesia2012 Jordan2012 Kenya2014 KyrgyzRepublic2012 Lesotho2014 Liberia2013 Mali2012 Mozambique2011 Namibia2013 Nepal2011 Niger2012 Nigeria2013 Pakistan2012 Rwanda2010 Rwanda2014 Senegal2010 Senegal2012 Senegal2014 Senegal2015 Senegal2016 SierraLeone2013 Tajikistan2012 Togo2013 Uganda2011 Yemen2013 Zambia2013 Zimbabwe2010"
 
 foreach name in $DHScountries_Recode_VI {
 tempfile birth ind men hm hiv hh iso 
