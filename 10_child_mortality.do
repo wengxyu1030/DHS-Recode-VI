@@ -30,8 +30,4 @@
 
 *c_magebrt: Mother's age at birth [DW - NOV2021]
 	gen c_magebrt = v012 - (v007-b2)
-	pause on 
-	tab c_magebrt
-	sum v012 v007 b2 c_magebrt c_anc
-	tab c_magebrt c_anc
-	pause check v012 v007 b2 c_magebrt		  
+	  
