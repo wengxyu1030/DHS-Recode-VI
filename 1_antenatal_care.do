@@ -116,7 +116,7 @@ order *,sequential
 	gen c_anc_tet = (rh_anc_neotet == 1) if  !mi(rh_anc_neotet)
 	
 	* 
-	if inlist(name, "Armenia2010", "Bangladesh2014","KyrgyzRepublic2012","Tajikistan2012"){
+	if inlist(name, "Armenia2010", "Bangladesh2014","KyrgyzRepublic2012","Tajikistan2012","Turkey2013"){
 		recode c_anc_tet rh_anc_neotet (0=.) 	
 
 	} 
