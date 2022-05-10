@@ -51,7 +51,10 @@ order *,sequential  //make sure variables are in order.
 	replace c_facdel = 1 if (regexm(m15_lab,"hospital|maternity|health center|clinic|dispensary") & !regexm(m15_lab,"home")) | ///
 	!regexm(m15_lab,"home|other private|other$|pharmacy|non medical|private nurse|religious|abroad|india|tba") | regexm(m15_lab,"health home|hospital/clin")
 	replace c_facdel = . if mi(m15) | m15 == 99 | mi(m15_lab)
-
+	
+	if inlist(name,"Turkey2013"){
+	   replace c_hospdel=0 if m15==31
+    }
 	if inlist(name,"Kenya2014"){
 		replace c_hospdel = 0 if inlist(m15,33,32)
 		replace c_facdel = 1 if m15==32 
@@ -134,10 +137,15 @@ order *,sequential  //make sure variables are in order.
 	replace c_caesarean = . if inlist(m15,.,99,98)
 
     *c_sba_eff1: Effective delivery care (baby delivered in facility, by skilled provider, mother and child stay in facility for min. 24h, breastfeeding initiated in first 1h after birth)
-	if !inlist(name,"Ghana2014","Namibia2013","India2015","KyrgyzRepublic2012","Niger2012","Pakistan2012","Uganda2011"){
+	if !inlist(name,"Ghana2014","Namibia2013","India2015","KyrgyzRepublic2012","Niger2012","Pakistan2012","Uganda2011","Turkey2013"){
 	gen stay = 0
 	replace stay = 1 if inrange(m61,124,198)|inrange(m61,200,298)|inrange(m61,301,399)
 	replace stay = . if inlist(m61,299,998,999,.) & !inlist(m15,11,12,96) // filter question, based on m15
+	}
+	if inlist(name,"Turkey2013"){
+    gen stay=0
+	replace stay=1 if inrange(m61,124,130)|inrange(m61,202,207)
+	replace stay=. if inlist(m61,199)&!inlist(m15,11,12,96)
 	}
 	if inlist(name,"Ghana2014"){
 	gen stay = 0

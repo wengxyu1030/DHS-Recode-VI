@@ -21,34 +21,41 @@ macro drop _all
 * Define root depend on the stata user. 
 if "`c(username)'" == "xweng"     local pc = 1
 	if "`c(username)'" == "robinwang"     local pc = 4
+	if "`c(username)'"=="Stellaaa"     local pc = 10086
 
 if `pc' == 1 global root "C:/Users/XWeng/OneDrive - WBG/MEASURE UHC DATA"
 	if `pc' == 4 global root "/Users/robinwang/Documents/MEASURE UHC DATA"
+	if `pc' == 10086 global root "D:\dw\GitHub\DW HEFPI"
 
 * Define path for data sources
 global SOURCE "${root}/RAW DATA/Recode VI"
+  if `pc' == 10086 global SOURCE "D:\dw\rawdata"
 	if `pc' == 4 global SOURCE "/Volumes/Seagate Bas/HEFPI DATA/RAW DATA/DHS/DHS VI"
 
 * Define path for output data
 global OUT "${root}/STATA/DATA/SC/FINAL"
 	if `pc' == 4 global OUT "${root}/STATA/DATA/SC/FINAL"
+	if `pc' == 10086 global OUT "${root}\output"
 
 * Define path for INTERMEDIATE
 global INTER "${root}/STATA/DATA/SC/INTER"
 	if `pc' == 4 global INTER "${root}/STATA/DATA/SC/INTER"
-
+    if `pc' == 10086 global INTER "${root}\inter"
 * Define path for do-files
 if `pc' != 0 global DO "${root}/STATA/DO/SC/DHS/DHS-Recode-VI"
 	if `pc' == 4 global DO "/Users/robinwang/Documents/MEASURE UHC DATA/DHS-Recode-VI"
-
+ if `pc' == 10086 global DO "${root}\DHS-Recode-VI\do"
 * Define the country names (in globals) in by Recode
-do "${DO}/0_GLOBAL.do"
+ if `pc' == 10086 do "${DO}\0_GLOBAL.do" 
+do "${DO}/0_GLOBAL.do"  
 
 //Namibia2013 Senegal2010 
 
 global DHScountries_Recode_VI "India2015"
 
 global DHScountries_Recode_VI "Armenia2010 Bangladesh2011 Bangladesh2014 Benin2011 BurkinaFaso2010 Burundi2010 Cambodia2014 Cameroon2011 Chad2014 Comoros2012 Congorep2011 Congodr2013 DominicanRepublic2013 Egypt2014 Ethiopia2011 Gabon2012 Gambia2013 Ghana2014 Guatemala2014 Guinea2012 Haiti2012 Honduras2011 Indonesia2012 Jordan2012 Kenya2014 KyrgyzRepublic2012 Lesotho2014 Liberia2013 Mali2012 Mozambique2011 Namibia2013 Nepal2011 Niger2012 Nigeria2013 Pakistan2012 Rwanda2010 Rwanda2014 Senegal2010 Senegal2012 Senegal2014 Senegal2015 Senegal2016 SierraLeone2013 Tajikistan2012 Togo2013 Uganda2011 Yemen2013 Zambia2013 Zimbabwe2010"
+
+global DHScountries_Recode_VI "Turkey2013"
 
 foreach name in $DHScountries_Recode_VI {
 tempfile birth ind men hm hiv hh iso 
@@ -177,6 +184,7 @@ save `hh'
 
 ***match with external iso data
 use "${SOURCE}/external/iso", clear 
+if `pc' == 10086 use "${SOURCE}\external\iso", clear 
 keep country iso2c iso3c
 replace country = "KyrgyzRepublic" if country == "Kyrgyzstan"
 
@@ -321,5 +329,5 @@ gen name = "`name'"
     do "${DO}/Label_var"
 
 save "${OUT}/DHS-`name'.dta", replace  
-
+if `pc' == 10086 save "${OUT}\DHS-`name'.dta", replace 
 }
