@@ -50,7 +50,9 @@
 
 *hh_religion: religion of household head (DW Team Nov 2021)
 	cap rename v130 hh_religion
-	
+	if inlist(name, "India2015") {
+		rename sh34 hh_religion
+	}	
 *hh_watersource: Water source (hv201 in DHS HH dataset, already coded for MICS)
 	rename hv201 hh_watersource
 

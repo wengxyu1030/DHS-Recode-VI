@@ -93,6 +93,13 @@ use "if inlist" instead of "capture" for sys&dial, in case the variables listed 
 		egen a_bp_sys = rowmean(sh315a sh324a sh334a)
 		egen a_bp_dial = rowmean(sh315b sh324b sh334b)
     }	 	
+	
+	if inlist(name, "India2015") {
+		drop a_bp_sys a_bp_dial
+		recode shb16s shb23s shb27s shb16d shb23d shb27d (994 995 996 998 999 =.) 
+		egen a_bp_sys = rowmean(shb16s shb23s shb27s)
+		egen a_bp_dial = rowmean(shb16d shb23d shb27d)
+    }	 		
 
 *a_hi_bp140_or_on_med	18y+ with high blood pressure or on treatment for high blood pressure	
 	gen a_hi_bp140=.
