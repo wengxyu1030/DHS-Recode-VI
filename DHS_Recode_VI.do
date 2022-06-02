@@ -48,6 +48,7 @@ do "${DO}/0_GLOBAL.do"
 global DHScountries_Recode_VI "India2015"
 
 global DHScountries_Recode_VI "Armenia2010 Bangladesh2011 Bangladesh2014 Benin2011 BurkinaFaso2010 Burundi2010 Cambodia2014 Cameroon2011 Chad2014 Comoros2012 Congorep2011 Congodr2013 DominicanRepublic2013 Egypt2014 Ethiopia2011 Gabon2012 Gambia2013 Ghana2014 Guatemala2014 Guinea2012 Haiti2012 Honduras2011 Indonesia2012 Jordan2012 Kenya2014 KyrgyzRepublic2012 Lesotho2014 Liberia2013 Mali2012 Mozambique2011 Namibia2013 Nepal2011 Niger2012 Nigeria2013 Pakistan2012 Rwanda2010 Rwanda2014 Senegal2010 Senegal2012 Senegal2014 Senegal2015 Senegal2016 SierraLeone2013 Tajikistan2012 Togo2013 Uganda2011 Yemen2013 Zambia2013 Zimbabwe2010"
+global DHScountries_Recode_VI "SierraLeone2013"
 
 
 foreach name in $DHScountries_Recode_VI {
@@ -199,11 +200,33 @@ use `hm',clear
 	gen year = real(substr("`name'",-4,.))
 	tostring(year),replace
     gen country = regexs(0) if regexm("`name'","([a-zA-Z]+)")
+
+	if inlist("`name'","BurkinaFaso2010") {
+		replace country = "Burkina Faso"
+	}
+	if inlist("`name'","Congorep2011") {
+		replace country = "Congo"
+	}
+	
+	if inlist("`name'","Congodr2013") {
+		replace country = "Congo, the Democratic Republic of the"
+	}
+	
+	if inlist("`name'","DominicanRepublic2013") {
+		replace country = "Dominican Republic"
+
+	}
+	
+	if inlist("`name'","SierraLeone2013"){
+		replace country = "Sierra Leone"
+
+	}	
 	
     merge m:1 country using `iso',force
     drop if _merge == 2
 	drop _merge
-
+	
+	
 *** Quality Control: Validate with DHS official data
 gen surveyid = iso2c+year+"DHS"
 gen name = "`name'"
